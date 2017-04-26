@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>幸运转盘抽奖</title>
+		
+		<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+	    <meta name="viewport"
+           content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+		<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		
+		<style>
+			
+			.g-content .g-lottery-case {
+				/* width: 500px; */
+				/* height: 445px; */
+				margin: 0 auto;
+				overflow: hidden;
+			}
+			
+			.g-content .g-lottery-case .g-left h2 {
+				font-size: 20px;
+				line-height: 32px;
+				font-weight: normal;
+				/* margin-left: 20px; */
+			}
+			
+			.g-content .g-lottery-case .g-left {
+				width: 450px;
+				height:450px;
+				/* float: left; */
+				margin: 5% auto;
+			}
+			
+			.g-lottery-box {
+				/* top: 50px; */
+				/* width: 400px; */
+				/* height: 400px; */
+				width: 100%;
+    			height: 100%;
+				/* margin-left: 30px; */
+				position: relative;
+				background: url(img/lottery/ly-plate-c.gif) no-repeat;
+				background-size: contain;
+			}
+			
+			.g-lottery-box .g-lottery-img {
+				/* width: 340px; */
+				/* height: 340px; */
+				width: 85%;
+    			height: 85%;
+				position: relative;
+				background: url(img/lottery/bg-lottery.png) no-repeat;
+				background-size: contain;
+				/* left: 30px; */
+				/* top: 30px; */
+				left: 7.5%;
+    			top: 7.5%;
+			}
+			
+			.g-lottery-box .playbtn {
+				/* width: 186px; */
+				/* height: 186px; */
+				width: 49%;
+    			height: 49%;
+				position: absolute;
+				/* top: 77px; */
+				/* left: 77px; */
+				top: 24.5%;
+    			left: 24.5%;
+				background: url(img/lottery/playbtn1.png) no-repeat;
+				background-size: contain;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="g-content">
+			<div class="g-lottery-case">
+				<div class="g-left">
+					
+					<div class="g-lottery-box">
+						<div class="g-lottery-img">
+							<a class="playbtn" href="javascript:;" title="开始抽奖"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/config.js"></script>
+		<script src="js/jquery-1.8.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="js/jquery.rotate.min.js"></script>
+		<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+		<script type="text/javascript" src="js/go.js"></script>
+		
+		<script >
+		</script>
+		
+	<p class="MsoNormal" align="center"
+			style="margin-bottom: 7.8pt; text-align: center; line-height: 90%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<b><span lang="EN-US"
+				style="font-size: 14pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">2016</span>
+			</b>
+			<b><span
+				style="font-size: 14pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">年郑州<span
+					lang="EN-US">联通</span>大转盘抽奖规则<span lang="EN-US"><o:p></o:p>
+				</span>
+			</span>
+			</b>
+		</p>
+
+		<p class="MsoListParagraph" align="left"
+			style="margin-bottom: 7.8pt; margin-left: 27.75pt; text-indent: -27.75pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<span lang="EN-US"
+				style="font-size: 14.0pt; line-height: 150%; font-family: &amp; quot; 微软雅黑 &amp;quot; , sans-serif; mso-bidi-font-family: 微软雅黑; color: blue; mso-font-kerning: 100pt">一、</span><span
+				style="font-size: 14.0pt; line-height: 150%; font-family: &amp; quot; 微软雅黑 &amp;quot; , sans-serif; mso-bidi-font-family: Arial; color: blue; mso-font-kerning: 0pt">活动时间<span
+				lang="EN-US"><o:p></o:p>
+			</span>
+			</span>
+		</p>
+		<p class="MsoListParagraph" align="left"
+			style="margin-bottom: 7.8pt; margin-left: 27.75pt; text-indent: 0cm; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<span lang="EN-US"
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">2016</span><span
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">年联通<span
+				lang="EN-US">郑州</span>正式活动时间为<span lang="EN-US">2016</span>年<span
+				lang="EN-US">11</span>月<span lang="EN-US">11</span>日<span
+				lang="EN-US"> 00:00:00</span>至<span lang="EN-US">2016</span>年<span
+				lang="EN-US">11</span>月<span lang="EN-US">11</span>日<span
+				lang="EN-US">23:59:59<o:p></o:p>
+			</span>
+			</span>
+		</p>
+
+		<p class="MsoListParagraph" align="left"
+			style="margin-bottom: 7.8pt; margin-left: 27.75pt; text-indent: -27.75pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<span lang="EN-US"
+				style="font-size: 14.0pt; line-height: 150%; font-family: &amp; quot; 微软雅黑 &amp;quot; , sans-serif; mso-bidi-font-family: 微软雅黑; color: blue; mso-font-kerning: 100pt">二、</span><span
+				style="font-size: 14.0pt; line-height: 150%; font-family: &amp; quot; 微软雅黑 &amp;quot; , sans-serif; mso-bidi-font-family: Arial; color: blue; mso-font-kerning: 0pt">活动内容<span
+				lang="EN-US"><o:p></o:p>
+			</span>
+			</span>
+		</p>
+
+		<p class="MsoListParagraph" align="left"
+			style="margin-bottom: 7.8pt; margin-left: 36pt; text-indent: -36pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<span lang="EN-US"
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">（1）<span
+				style="font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &amp; quot;">&nbsp;&nbsp;
+			</span>
+			</span><span
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">活动进行中，方便中奖用户奖品及时到账，用户需进行手机号码绑定即可参与抽奖活动。</span>
+		</p>
+
+		<p class="MsoListParagraph" align="left"
+			style="margin-bottom: 7.8pt; margin-left: 36pt; text-indent: -36pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<span lang="EN-US"
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">（2）<span
+				style="font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &amp; quot;">&nbsp;&nbsp;
+			</span>
+			</span><span
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">用户中奖详情，将推送于客户端。</span>
+		</p>
+
+		<p class="MsoListParagraph" align="left"
+			style="margin-bottom: 7.8pt; margin-left: 36pt; text-indent: -36pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<span lang="EN-US"
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">（3）<span
+				style="font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &amp; quot;">&nbsp;&nbsp;
+			</span>
+			</span><span
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">奖品将于24小时内返还用户绑定手机账户中。</span>
+		</p>
+
+		<p class="MsoListParagraph" align="left"
+			style="margin-bottom: 7.8pt; margin-left: 36pt; text-indent: -36pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<span lang="EN-US"
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">（4）<span
+				style="font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &amp; quot;">&nbsp;&nbsp;
+			</span>
+			</span><span
+				style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">活动进行中，用户若分享活动至朋友圈或好友将获得一次抽奖机会。</span>
+		</p>
+	</body>
+
+</html>

@@ -1,0 +1,4 @@
+FROM 192.168.0.29:5000/tomcat:7-jre7
+ENV TZ "Asia/shanghai"
+COPY target/order-api-0.5.0.jar /usr/local/
+CMD ["java","-jar","/usr/local/order-api-0.5.0.jar"]

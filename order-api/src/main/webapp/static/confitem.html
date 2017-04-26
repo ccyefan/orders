@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>配置项</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+
+    <!-- Data Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css"
+          rel="stylesheet">
+
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/codemirror/codemirror.css" rel="stylesheet">
+    <link href="css/codemirror/ambiance.css" rel="stylesheet">
+    <link href="css/codemirror/monokai.css" rel="stylesheet">
+    <link href="css/codemirror/pastel-on-dark.css" rel="stylesheet">
+    <style type="text/css">
+        .CodeMirror-lines {
+            min-height: 100px;
+        }
+    </style>
+    <base target="_blank">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>配置项</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+                        </a> <a class="dropdown-toggle" data-toggle="dropdown"
+                                href="table_data_tables.html#"> <i class="fa fa-wrench"></i>
+                    </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="table_data_tables.html#">选项1</a></li>
+                            <li><a href="table_data_tables.html#">选项2</a></li>
+                        </ul>
+                        <a class="close-link"> <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="">
+                        <a onclick="showData();" href="javascript:void(0);"
+                           class="btn btn-primary ">添加行</a>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover table-condensed"
+                           id="editable">
+                        <thead>
+	                        <tr>
+	                        	<th width="5%">pkId</th>
+	                            <th width="5%">key</th>
+	                            <th width="73%">value</th>
+	                            <th width="17%">操作</th>
+	                        </tr>
+                        </thead>
+                        <tbody>
+	                        <tr class="gradeX">
+<!-- 	                        	<td>id</td>
+	                            <td>Trident</td>
+	                            <td>Internet Explorer 4.0</td>
+	                            <td>
+	                                <button type="button" class="btn btn-small btn-primary btn-edit">查看</button>
+	                                <button type="button" class="btn btn-small btn-primary btn-edit">修改</button>
+	                                <button type="button" class="btn btn-small btn-danger btn-del">删除</button>
+	                            </td> -->
+	                        </tr>
+                        </tbody>
+<!--                         <tfoot>
+	                        <tr>
+	                            <th colspan="3">添加按钮</th>
+	                        </tr>
+                        </tfoot> -->
+                    </table>
+                </div>
+                <!--<textarea id="code1"></textarea>-->
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">新增配置</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="key" placeholder="key">
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="code1"></textarea>
+                                    <!--<input type="text" class="form-control" id="value" placeholder="value">-->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info" id="addData">添加模拟数据</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <!-- <button type="button" class="btn btn-primary" id="save">保存</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.5"></script>
+<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+<script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="js/codemirror/codemirror.js"></script>
+<script src="js/codemirror/fold/foldcode.js"></script>
+<script src="js/codemirror/fold/foldgutter.js"></script>
+<script src="js/codemirror/fold/brace-fold.js"></script>
+<script src="js/codemirror/fold/xml-fold.js"></script>
+<script src="js/codemirror/fold/indent-fold.js"></script>
+<script src="js/codemirror/fold/markdown-fold.js"></script>
+<script src="js/codemirror/fold/comment-fold.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/codemirror/mode/groovy/groovy.js"></script>
+<script src="js/codemirror/matchbrackets.js"></script>
+<script src="js/config.js"></script>
+<script>
+	var oTable;
+    $(document).ready(function () {
+         	oTable = $("#editable").dataTable({
+            //"ordering": false,
+            //"order": [[1,'asc']],
+            //"paging":   false,
+            "pageLength": 8,
+            "lengthMenu": [ [4, 5, 8, -1], [4, 5, 8, "All"] ],
+            //"info":     false,
+            //"serverSide": true, //后端分页
+            "ajax":function(data, callback, settings){
+                /* data.size = data.length;
+                data.page = data.start/data.length;
+                var index = data.order[0].column;
+                var colval = (index==0)?'id':data.columns[index].data;
+                data.sort = colval+','+data.order[0].dir;
+                data.search = data.search.value; */
+                $.ajax({
+                    type: "GET",
+                    url: "http://"+host+"/form/findItemByFileId?fileid="+GetRequest().fileId,
+                    cache : false,  //禁用缓存
+                    dataType: "json",
+                    data:data,
+                    success: function(result){
+                    	if(!result.length==0){
+                    	}
+                        var returnData = {};
+                        returnData.data = result;
+                        callback(returnData);
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){}
+                });
+            },
+            columns:[{data:'pkId'},{data:'confKey'},{data:'confValue'},{data:null}],
+            columnDefs:[{
+            	targets: 3,
+                render: function (data, type, row, meta) {
+					return '<button type="button" class="btn btn-small btn-primary btn-edit" style="margin-right: 3px" onclick="find('+row.pkId+');">查看</button>' +
+        					'<button type="button" class="btn btn-small btn-primary btn-edit" style="margin-right: 3px" onclick="update('+row.pkId+')">修改</button>' +
+        					'<button type="button" class="btn btn-small btn-danger btn-del" onclick=deleteData(' + row.pkId + ')>删除</button>';
+                }
+            }]
+        }).api();
+        $('#myModal').on('shown.bs.modal', function () {
+		  editor_one.refresh();
+		});
+    });
+    //添加配置项
+    function showData() {
+    	$("#myModalLabel").html("添加配置");
+        $("#key").val("");
+        editor_one.setValue(" ");
+        editor_one.refresh();
+        $("#myModal").modal('show');
+        $("#addData").show();
+    	$("#addData").html("保存");
+        $("#addData").unbind();
+        $("#addData").bind('click',function(){
+	        //$("#editable").dataTable().fnAddData(["Custom row", "New row", "New row", "New row", "New row"]);
+	        $.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "http://"+host+"/form/addline",
+				dataType: "json",
+				data:formToJsonString(),
+				success: function(result) {
+					//$("#editable").dataTable().fnAddData(data);
+					$("#myModal").modal('hide');
+					//oTable.draw();  //服务端模式跟新表格
+					oTable.ajax.reload();  //前端模式更新表格
+				}
+			});
+        });
+    }
+    function deleteData(id){
+    	$.ajax({
+    		type:"GET",
+    		url:"http://"+host+"/form/delline?confItemId="+id,
+    		success:function(){
+    			//oTable.draw();
+    			oTable.ajax.reload();  //前端模式更新表格
+    		}
+    	});
+    }
+    function find(id) {
+        $("#myModalLabel").html(id+"配置");
+  		$("#addData").hide();
+        $.ajax({
+        	type:"GET",
+        	url:"http://"+host+"/form/confitem/"+id,
+        	success:function(result){
+        		console.log(result);
+        		console.log(result.conf_value);
+		        $("#myModal").modal('show');
+        		$("#key").val(result.confKey);
+        		editor_one.refresh();
+        		editor_one.setValue(result.confValue);
+        	}
+        });
+    }       
+    //修改按钮
+    function update(id){
+    	find(id);
+    	$("#myModalLabel").html(id+"修改");
+    	$("#addData").show();
+    	editor_one.refresh();
+    	$("#addData").html("保存修改");
+    	$("#addData").unbind();
+        $("#addData").bind('click',function(){
+	    	//var updata = '{"confKey":"'+$("#key").val()+'","confValue":"'+editor_one.getValue()+'"}';
+	    	$.ajax({
+	    		type:"POST",
+	    		contentType: "application/json",
+	    		url:"http://"+host+"/form/upline/",
+	    		dataType:"json",
+	    		data:formToJsonString(id),
+	    		success:function(result){
+	    			$("#myModal").modal('hide');
+					//oTable.draw();
+					oTable.ajax.reload();  //前端模式更新表格
+	    		}
+	    	});
+	    });
+    }
+    //code_editor
+    var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        styleActiveLine: true,
+        theme: "ambiance",
+        /* theme: "monokai", */
+        /* theme: "pastel-on-dark", */
+        mode:"text/x-groovy"
+    });
+	function GetRequest() {
+		var url = location.search;
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			strs = str.split("&");
+			for (var i = 0; i < strs.length; i++) {
+				theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+			}
+		}
+		return theRequest;
+	}
+	function formToJsonString(id){
+	   	var jso = {};
+		if(id!==null){
+			jso.id = id;
+		}
+	   	jso.confKey=$("#key").val();
+	   	jso.confValue = editor_one.getValue();
+	   	var fileInfo = {};
+	   	fileInfo.id= GetRequest().fileId;
+	   	jso.fileInfo = fileInfo; 
+	   	console.log(jso);
+	   	jsondata = JSON.stringify(jso);
+	   	console.log(jsondata);
+	   	return jsondata;
+	}
+	$(".ibox-title h5").html("文件&nbsp;&nbsp;&nbsp;&nbsp;"+GetRequest().path+GetRequest().name);
+	
+</script>
+</body>
+
+</html>

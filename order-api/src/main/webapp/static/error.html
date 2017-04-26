@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>流量业务办理</title>
+
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<style type="text/css">
+	.gray-bg {
+	    background-color: #EFEFF5;
+	}
+	.form-control:focus, .single-line:focus {
+		border-color: #bbb !important
+	}
+	.row {
+	    margin-right: -9px;
+	    margin-left: -9px;
+	}
+	* {
+	    font-family: 'Microsoft Yahei','Simsun',Helvetica,Arial,sans-serif;
+	    /*font-weight: 100;*/
+	}
+	.ibox-content {background-color: inherit;}
+	.form-control{border: 1px solid #bbb; background-color: inherit;}
+	.wrapper-content {padding: 10px;}
+	.ibox-content{padding: 15px 20px 20px;}
+	.btn{
+		border-radius: 2px;
+		width: 100%;
+		height: 40px;
+		font-size: 16px;
+		font-weight: 100;
+		/*background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#ec6618),color-stop(1,#ed7c18));*/
+		background-color:#F47327;
+		color:white;
+    	padding: 6px 0px;
+	}
+	#error p{
+		/* text-align: -webkit-right; */
+	}
+	</style>
+</head>
+
+<body class="gray-bg">
+		<div class="ibox-content" style="border-top-width: 0px;">
+			<div id="page_content">
+				<div class="form-group">
+					<p class="text-center" style="margin-top: 100px;">
+						<span style="position:absolute;margin-top:40px;margin-left:14px;">业务异常!</span>
+						<img src="./img/pic_yewuyichang@3x.png" style="width:200px;">
+					</p>
+				</div>
+				<div id="error" class="row form-group" style="margin-bottom: 150px;">
+					<p class="text-center" style="font-size: 18px;">业务异常！</p>
+				</div>
+				<div class="row form-group">
+					<a type="button" class="btn" onclick="window.history.go(-1);">返回</a><!-- window.history.back(-1); -->					
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			function GetRequest() {
+				var url = location.search;
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
+			}
+			//console.log(";"+times+";"+timesd+";"+timesd);*/
+/* 			$("#error p").append(
+			"<p>"+GetRequest().workId+"</p>"+
+			"<p>返回消息：办理失败</p>"+
+			"<p>发送Server时间："+GetRequest().rpc_start+"</p><p>"+GetRequest().t1_start+"</p>"+
+ 			"<p>接收到的时间："+GetRequest().time1+"</p><p>"+GetRequest().t2_t1+"</p>"+
+			"<p>订购接口接收到数据的时间："+GetRequest().time2+"</p><p>"+GetRequest().t3_t2+"</p>"+
+			"<p>订购接口开始时间："+GetRequest().time3+"</p><p>"+GetRequest().t4_t3+"</p>"+
+			"<p>订购接口结束时间："+GetRequest().time4+"</p><p>"+GetRequest().end_t4+"</p>"+
+			"<p>接收Server到时间："+GetRequest().rpc_end+"</p>"); */
+			
+		</script>
+</body>
+
+</html>

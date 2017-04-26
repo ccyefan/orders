@@ -1,0 +1,32 @@
+
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,table,td,img,div{margin:0;padding:0;border:0;}
+body{color:#333; font-size:12px;font-family:"Microsoft YaHei"}
+ul,ol{list-style-type:none;}
+select,input,img,select{vertical-align:middle;}
+input{ font-size:12px;}
+a{ text-decoration:none; color:#000;}
+a:hover{color:#c00; text-decoration:none;}
+.clear{clear:both;}
+
+/* 大转盘样式 */
+.plate{display:block;width:600px;margin-left:auto;margin-right:auto;margin-bottom: 20px;}
+.plate .banner{display:block;width:100%;}
+.plate .turnplate{display:block;width:100%;position:relative;}
+.plate .turnplate canvas.item{width:100%;}
+.plate .turnplate img.pointer{position:absolute;width:20%;height:26%;left:40%;top:33.6%;}
+.plate .turnplate img.lottery{position:absolute;width:20%;height:26%;left:40%;top:33.6%;width="422px"; height="422px";}
+
+/*背景图*/
+div#div1{
+position:fixed;
+top:0;
+left:0;
+bottom:0;
+right:0;
+z-index:-1;
+}
+div#div1 > lottery {
+height:100%;
+width:100%;
+border:0;
+}

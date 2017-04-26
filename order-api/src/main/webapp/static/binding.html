@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>用户绑定</title>
+
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+	<link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+	<link href="css/weui.min.css" rel="stylesheet">
+	<style type="text/css">
+	.gray-bg {
+	    background-color: #EFEFF5;
+	}
+	hr {border-top: 1px solid #E0E0E0;}
+	.login-field {
+	    border-color: transparent;
+	    font-size: 16px;
+	    padding: 10px 0;
+	    text-indent: 3px;
+	    border: 2px solid #008BF5;
+	    color: #34495e;
+	    border-radius: 6px;
+	    transition: border linear 0.2s, box-shadow linear 0.2s;
+	    vertical-align: left;
+	}
+	.ibox-content {background-color: inherit;}
+	.wrapper-content {padding: 10px;}
+	.ibox-content{    padding: 15px 20px 20px;}
+	* {
+	    font-family: 'Microsoft Yahei','Simsun',Helvetica,Arial,sans-serif;
+	    /*font-weight: 100;*/
+	}
+	.row {
+	    margin-right: -9px;
+	    margin-left: -9px;
+	}
+	.col{padding-right: 5px;  padding-left: 5px;}
+	.selected{
+		float: left;
+	    width: auto;
+	    line-height: 40px;
+	    margin: 0 2% 10px 0;
+	    text-align: center;
+    	font-size: 16px;
+    	box-sizing: border-box;
+    	border-radius: 2px;
+    	border: 1px solid #ec661b;
+    	background: url(./img/ico_duigou@3x.png) no-repeat right bottom;
+    	background-size: 16px 16px;
+    	padding-right: 16px;
+    	padding-left: 16px;
+	}
+	.btn{
+		/*background-image:url(./img/juxing_yanzhengmashuruzhengque@3x.png);*/
+		border-radius: 2px;
+		width: 100%;
+		height: 40px;
+		font-size: 16px;
+		font-weight: 100;  /*字体加粗*/
+		line-height: 1.6;
+		/*background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#ec6618),color-stop(1,#ed7c18));*/
+		background-color:#008BF5;
+		color:white;
+    	padding: 6px 0px;
+	}
+	.btn_sended{
+		border-radius: 4px;
+		width: 100%;
+		height: 40px;
+		font-size: 14px;
+	    /*background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#ececec),color-stop(1,#e5e5e5));*/
+	    background-color:#DEDEE0;
+		color:#636363;
+    	padding: 6px 0px;
+	}
+	.weui-toast {
+		min-height: 4em;
+		width: 14.6em;
+		margin-left: -7.3em;
+	}
+	.weui-toast__content {
+	    margin: 15px 0 15px;
+	}
+	.modal-header {
+	    padding: 30px 15px;
+	    text-align: center;
+	}
+	.modal-body {
+    	text-align: center;
+    }
+    img {
+    	width: 40%;
+    }
+    .modal-dialog {
+    	margin-top: 120px;
+	    margin-left: 50px;
+	    margin-right: 50px;
+    }
+    .modal-header {
+    	border-bottom:0px;
+    }
+    .modal-footer {
+    	border-top:0px;
+    }
+	@media all and (max-width: 540px) {
+	.sweet-alert {
+		width: auto;
+		margin-left: 0;
+		margin-right: 0;
+		left: 60px;
+		right: 60px;
+	}
+	</style>
+</head>
+
+<body class="gray-bg">
+		<div style="background: url(./img/bundingbp.png) no-repeat;;width: 100%;height: 40%;background-size: 100% 100%;position: relative;"></div>
+		<div class="ibox-content" style="border-top-width: 0px;">
+			<div id="page_content">
+			<form id="form1">
+				<div class="row form-group" style="margin-bottom: 20px;">
+					<div class="col-xs-7 col" style="padding-left: 0px;">
+						<input class="form-control login-field" type="text" id="tel" name="telphone" text="telphone" onfocus="cleantel();" 
+						placeholder="请输入手机号"/>
+					</div>
+				</div>
+				<div class="row form-group" style="margin-bottom: 20px;">
+					<div class="col-xs-7 col" style="padding-left: 0px;">
+						<input class="captcha form-control login-field" type="text" id="captcha" name="captcha" onfocus="cleaniput();" 
+						placeholder="请输入验证码"/>
+					</div>
+					<!-- <div class="col-xs-5 col">
+						<img src="/form/captcha" id="codeimg"  onclick="this.src='../captcha?str='+new Date().getTime();"
+						width="100%" style="border: 1px solid;width:100%;height: 34px;"/>
+					</div> -->
+					<div class="col-xs-5 col" style="padding-right: 0px;">
+						<button id="smsbtn" class="btn" type="submit" data-loading-text="发送中...">发送验证码</button>						
+					</div>
+				</div>
+				<div class="row form-group">
+					<button id="banli" type="button" class="btn" data-loading-text="绑定中..." onclick="bangding();">确认绑定</button>
+				</div>
+			</form>
+			</div>
+		</div>
+		<div class="modal fade bs-example-modal-sm" id="success" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+				<div class="modal-header">
+					<img src="./img/icon_chenggong@3x.png" />
+				</div>
+				<div class="modal-body">
+					<p style="font-size: 16px;">
+						绑定成功！
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal" onclick="backPage();">确定</button> <!-- WeixinJSBridge.call('closeWindow'); -->
+				</div>
+		    </div>
+		  </div>
+		</div>
+				<div class="modal fade bs-example-modal-sm" id="fail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+				<div class="modal-header">
+					<img src="./img/icon_chenggong@3x.png" />
+				</div>
+				<div class="modal-body">
+					<p style="font-size: 16px;">
+						用户已绑定
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-white" data-dismiss="modal" onclick="">确定</button>
+				</div>
+		    </div>
+		  </div>
+		</div>		
+		<div class="modal fade bs-example-modal-sm" id="error" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+				<div class="modal-header">
+					<img src="./img/icon_cs@3x.png" />
+				</div>
+				<div class="modal-body">
+					<p style="font-size: 16px;">
+						网络超时，请稍后重试！
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-white" data-dismiss="modal">确定</button>
+				</div>
+		    </div>
+		  </div>
+		</div>
+		<script src="js/config.js"></script>
+		<script src="js/jquery.min.js?v=2.1.4"></script>
+		<script src="js/bootstrap.min.js?v=3.3.5"></script>
+		<script src="js/plugins/validate/jquery.validate.min.js"></script>
+		<script src="js/plugins/validate/messages_zh.min.js"></script>
+		<script src="layer_mobile/layer.js"></script>
+		<script type="text/javascript">
+			$().ready(function(){
+				// 手机号码验证
+				jQuery.validator.addMethod("isMobile", function(value, element) {
+				    var length = value.length;
+				    //var mobile = /^(13[0-9]{9})|(18[0-9]{9})|(14[0-9]{9})|(17[0-9]{9})|(15[0-9]{9})$/;
+				    var mobile = /(13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7}/;
+				    return this.optional(element) || (length == 11 && mobile.test(value));
+				}, "请正确填写您的手机号码");
+				//发送按钮对应的非空验证
+			    var validator =  $("#form1").validate({
+			    	 //debug:true,
+			    	 ignore: ".ignore",
+			    	 onkeyup:false,
+			    	 rules: {
+			    	 	telphone: {
+					        required: true,
+					        //minlength: 11,
+					        isMobile : true
+					    }/* ,
+					    captcha:{
+					    	required: true
+					    } */
+					 },
+					 messages: {
+					     telphone: {
+					       required: "请输入手机号",
+					       //minlength: "手机号必须不小于11位",
+					       isMobile : "请正确填写您的手机号码"
+					     }/* ,
+					     captcha:{
+					     	required: "请输入验证码"
+					     } */
+					 },
+					 errorElement: "span",
+					 errorPlacement:function(error,element){
+					 	 /* var html = "<div id='toast'><div class='weui-mask_transparent'></div><div class='weui-toast'><p class='weui-toast__content'></p></div></div>";
+					 	 $("body").append(html);
+					 	 error.appendTo($(".weui-toast"));
+					     setTimeout(function () {
+						 	$("#toast").remove();
+				         }, 1112000); */
+			       		 layer.open({
+						    content: error.html()
+						    ,style: 'padding: 10px 25px;bottom: 120px;'
+						    ,skin: 'msg'
+						    ,time: 3 //2秒后自动关闭
+						 });
+					 }
+			    });
+			    //绑定按钮对应的非空验证
+/* 			    $("#smsbtn").click(function(){
+					validator.resetForm();
+				}); */
+			    /* $("#banli").click(function() {
+					validator.resetForm();
+				}); */
+			});
+			$.validator.setDefaults({
+			    submitHandler: function() {
+			      //alert("提交事件!");
+			      sendCode();
+			      //bangding();
+			    }
+			});
+			//恢复办理按钮按钮状态
+			function rebtn(){
+				console.log("恢复颜色的方法进入");
+	    	  	$("#banli").removeClass("btn_sended");
+	    	  	$("#banli").removeAttr("disabled");
+	    	  	//蒙版消失
+	    	  	$(".modal-backdrop2").remove();
+	    	  	//按钮文字提示恢复
+	    	  	$("#banli").button('reset');
+			}
+			function cleaniput(){
+				$("#captcha").val("");
+			}
+			function cleantel(){
+				$("#tel").val("");
+			}
+			function GetRequest() {
+				var url = location.search;
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
+			}
+			function backPage(){
+				//跳转到抽奖页面
+				window.location.href="http://"+host+"/form/static/index.html?period="+GetRequest().period+"&openId="+GetRequest().openId+"&publicId="+GetRequest().publicid+"&init=yes";
+				//回写 绑定状态（调用数据库）保存数据库，isbind 被改为1
+			}
+			//向手机发送验证码
+			function sendCode(){
+				$("#captcha").val("");
+				var $smssending = $("#smsbtn").button('loading');
+				$.ajax({
+					type: "get",
+					url: "http://"+host+"/form/bdsms?tel="+$("#tel").val(),
+					dataType: "json",
+					//timeout:1500,
+					success: function(rel) {
+						console.log(rel);  //1.短信发送成功   2.走业务异常
+						if(rel.massage=="验证码发送成功"){
+							sended($smssending);
+						}else{
+							//业务异常页面
+							location.href="error.html";
+						}
+					},
+					error:function(err){
+						$sending.button('reset');
+						console.log(err);  //网络异常，重试页面
+						$('#error').modal('show')
+					}
+				});
+			}
+			function bangding(){
+				//按钮变灰不可操作
+ 				$("#banli").addClass("btn_sended");
+				$("#banli").blur();
+				$("#banli").attr({"disabled":"disabled"});
+				//添加蒙板
+				$("body").append("<div class='modal-backdrop2 fade in'></div>");
+				//按钮提示办理中...
+				$("#banli").button('loading');
+				$.ajax({
+					type:"get",
+					url:"http://"+host+"/form/createWechatUser2?publicid="+GetRequest().publicid+"&openId="+GetRequest().openId+"&tel="+$("#tel").val()+"&captcha="+$("#captcha").val(),
+					success:function(rel){
+						//响应到结果后，按钮的颜色恢复，蒙板学消失
+						rebtn();
+						console.log(rel);
+						if (rel.message == "保存成功") {
+							// alert("办理成功"); //弹出框，并且关闭。
+							//$('#success').modal('show');
+							$('#success').modal({backdrop:'static'});
+						} else if (rel.message == "保存失败"){  //保存失败，显示用户已经绑定 
+							//location.href="error.html";
+							$('#fail').modal('show');
+						} else{  //验证错误，为空，超时
+							//alert(rel.message);
+							//var html = "<div id='toast'><div class='weui-mask_transparent'></div><div class='weui-toast'><p class='weui-toast__content'>"+rel.message+"</p></div></div>";
+							//$("body").append(html);
+							//setTimeout(function () {
+								//$("#toast").remove();
+				            //}, 2000);
+				         layer.open({
+						    content: rel.message
+						    ,style: 'padding: 10px 25px;bottom: 120px;'
+						    ,skin: 'msg'
+						    ,time: 3 //2秒后自动关闭
+						 });
+						}
+					}
+				});
+			}
+			function sended($smssending){
+				// 倒计时，按钮变灰色，不可使用。
+				$("#smsbtn").addClass("btn_sended");
+				$("#smsbtn").blur();
+				$("#smsbtn").attr({"disabled":"disabled"});
+				//记时开始
+				n=60;
+				var t1 = setInterval(function(){
+			        n--;
+			        document.getElementById("smsbtn").innerHTML = "重新发送("+n+")";
+		    	}, 1000);
+		    	//定时跳转到页面
+		    	t2 = setTimeout(function(){
+		    	  	clearInterval(t1);
+		    	  	n=60;
+		    	  	document.getElementById("smsbtn").innerHTML = "重新发送";
+		    	  	$("#smsbtn").removeClass("btn_sended");
+		    	  	$("#smsbtn").removeAttr("disabled");
+		    	  	//取消loading效果
+			    	$smssending.button('reset');
+		    	}, 60000);
+			}
+		</script>
+</body>
+</html>

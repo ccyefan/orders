@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title>幸运转盘抽奖</title>
+		
+		<!-- <meta http-equiv="X-UA-Compatible" content="IE=edge"> -->
+	    <meta name="viewport"
+           content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+		<link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+		<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<style>
+			 
+			
+			.g-content .g-lottery-case {
+				/* width: 500px; */
+				/* height: 445px; */
+				margin: 0 auto;
+				overflow: hidden;
+			}
+			
+			.g-content .g-lottery-case .g-left h2 {
+				font-size: 20px;
+				line-height: 32px;
+				font-weight: normal;
+				/* margin-left: 20px; */
+			}
+			
+			.g-content .g-lottery-case .g-left {
+				width: 450px;
+				height:450px;
+				/* float: left; */
+				margin: 5% auto;
+			}
+			
+			.g-lottery-box {
+				/* top: 50px; */
+				/* width: 400px; */
+				/* height: 400px; */
+				width: 100%;
+    			height: 100%;
+				/* margin-left: 30px; */
+				position: relative;
+				background: url(img/lottery/ly-plate-c.gif) no-repeat;
+				background-size: contain;
+			}
+			
+			.g-lottery-box .g-lottery-img {
+				/* width: 340px; */
+				/* height: 340px; */
+				width: 85%;
+    			height: 85%;
+				position: relative;
+				background: url(img/lottery/bg-lottery.png) no-repeat;
+				background-size: contain;
+				/* left: 30px; */
+				/* top: 30px; */
+				left: 7.5%;
+    			top: 7.5%;
+			}
+			
+			.g-lottery-box .playbtn {
+				/* width: 186px; */
+				/* height: 186px; */
+				width: 49%;
+    			height: 49%;
+				position: absolute;
+				/* top: 77px; */
+				/* left: 77px; */
+				top: 24.5%;
+    			left: 24.5%;
+				background: url(img/lottery/playbtn.png) no-repeat;
+				background-size: contain;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="g-content">
+			<div class="g-lottery-case">
+				<div class="g-left">
+					<div class="g-lottery-box">
+						<div class="g-lottery-img">
+							<a class="playbtn" href="javascript:;" title="开始抽奖"></a>
+							<!--<a class="playbtn" href="http://www.baidu.com" onclick="this.disabled=true;this.style.color='#cccccc';return false;"></a>-->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<img src="" id="testtest" hidden/></img>
+		<script src="js/config.js"></script>
+		<script src="js/jquery-1.8.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="js/jquery.rotate.min.js"></script>
+		<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+		<script type="text/javascript" src="js/go.js"></script>
+		<script>
+		documentWidth=window.screen.availWidth;
+		$(".g-left").css("width",documentWidth*0.85);
+		$(".g-left").css("height",documentWidth*0.85);
+		var datas;
+					$.ajax( {
+								type : "get",
+								url : "http://" + host + "/form/activity",
+								dataType : "json",
+								success : function(result) {
+									datas = result._embedded.activity;
+									console.log(datas);
+									//$("#p1").html(datas[0].activityTime);
+									var date=datas[0].activityTime;
+									var date1=datas[0].startTime;
+									var date2=datas[0].stopTime;
+									var timearr=date.replace(/[a-zA-Z]/g,"  ").replace(" ",":").replace(/\:/g,"-").split("-");
+									var timearr1=date1.replace(/[a-zA-Z]/g,"  ").replace(" ",":").replace(/\:/g,"-").split("-"); 
+									var timearr2=date2.replace(/[a-zA-Z]/g,"  ").replace(" ",":").replace(/\:/g,"-").split("-"); 
+									for(i=0;i<timearr.length;i++){ //alert(timearr[i]); 
+									var year=timearr[0];
+									var month=timearr[1];
+									var day=timearr[2];
+									var hour=timearr[3];
+									var min=timearr[4];
+									var sec=timearr[5].split(".")[0];
+									} 
+									for(i=0;i<timearr1.length;i++){ //alert(timearr[i]);
+									var year1=timearr1[0];
+									var month1=timearr1[1];
+									var day1=timearr1[2];
+									var hour1=timearr1[3];
+									var min1=timearr1[4];
+									var sec1=timearr1[5].split(".")[0];
+									}
+									for(i=0;i<timearr2.length;i++){ //alert(timearr[i]); 
+									var year2=timearr2[0];
+									var month2=timearr2[1];
+									var day2=timearr2[2];
+									var hour2=timearr2[3];
+									var min2=timearr2[4];
+									var sec2=timearr2[5].split(".")[0];
+									}
+									var Time = hour + ':' + min + ':' + sec;
+									var Time1 = hour1 + ':' + min1 + ':' + sec1;
+									var Time2 = hour2 + ':' + min2 + ':' + sec2;
+									$("#p1").html(year);
+									$("#p2").html(month);
+									for(var i=datas.length-1;i>=0;i--){
+										$(".MsoNormal").after('<p class="MsoListParagraph" align="left"' +
+										'style="margin-bottom: 7.8pt; margin-left: 36pt; text-indent: -36pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">' +
+										'<span lang="EN-US"' +
+										'style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">（'+(i+1)+'）<span' +
+										'style="font-variant-numeric: normal; font-stretch: normal; font-size: 7pt; line-height: normal; font-family: &amp; quot;">&nbsp;&nbsp;' +
+										'</span>' +
+										'<span style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">'+datas[i].remarks+'</span></p>');
+									}
+									$(".MsoNormal").after('    <a href="#hourglass-start"><i class="fa fa-hourglass-1";color: blue></i>	活动时间<span class="text-muted">！</span></a><p class="MsoListParagraph" align="left"'+
+										'style="margin-bottom: 7.8pt; margin-left: 27.75pt; text-indent: -27.75pt; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">'+
+										'<span lang="EN-US"'+
+										'style="font-size: 14.0pt; line-height: 150%; font-family: &amp; quot; 微软雅黑 &amp;quot; , sans-serif; mso-bidi-font-family: 微软雅黑; color: blue; mso-font-kerning: 100pt"></span><span'+
+										'style="font-size: 14.0pt; line-height: 150%; font-family: &amp; quot; 微软雅黑 &amp;quot; , sans-serif; mso-bidi-font-family: Arial; color: blue; mso-font-kerning: 0pt"><span'+
+										'lang="EN-US"><o:p></o:p></span></span></p>'+'<p class="MsoListParagraph" align="left"'+
+										'style="margin-bottom: 7.8pt; margin-left: 27.75pt; text-indent: 0cm; line-height: 150%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">'+
+										'<span lang="EN-US"'+
+										'style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">'+year+'</span><span'+
+										'style="font-size: 11pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">年联通<span'+
+										'lang="EN-US">郑州</span>正式活动时间为<span lang="EN-US"></span>'+year1+'年'+
+										''+month1+'月'+day1+'日<span'+
+										'lang="EN-US"> '+Time1+'</span>至<span lang="EN-US">'+year2+'年'+
+										''+month2+'月'+day2+'日<span'+'lang="EN-US">'+Time2+'<o:p></o:p>'+
+										'</span></span></p>');
+								}
+							});
+			$(function() {
+			    var period = $.req('period');  
+			    var $btn = $('.playbtn');
+				//var playnum = 11; //初始次数，由后台传入
+				//$('.playnum').html(playnum);
+				var isture = 0;
+				var clickfunc = function() {
+				 $.ajax({//问题一：url的period的可选择设置
+				    url:"http://"+host+"/form/user/lottery?period="+period+"&?telNumber="+123321,
+					type: "get",
+					dataType: "json",
+					success:function(result){
+					console.log(result);
+					//问题二：不同情况下出奖提醒--已解决
+					 //alert(result.lottery.msg);
+					if(result.lottery.status=="fail3"){
+						  switch(404){
+						  case 404:
+						  rotateFunc(404, 0, '谢谢参与!');
+						  break;
+						  }
+					 }else if(result.lottery.status=="fail1"){
+						 swal(result.lottery.msg, "非常感谢，下期再见。", "success");
+					 }else{
+					    switch(result.lottery.lottery) {
+						case 1:
+							rotateFunc(1, 300, '一等奖!');
+							break;
+						case 2:
+							rotateFunc(2,60, '二等奖!');
+							break;
+						case 3:
+							rotateFunc(3, 240, '三等奖!');
+							break;
+						case 4:
+							rotateFunc(4,120, '四等奖!');
+							break;
+						case 5:
+							rotateFunc(5, 180, '谢谢参与!');
+							break;
+					   }
+					 }
+					}
+				 });
+				}
+				$btn.click(function() {
+					if(isture) {
+						swal({title:"",text:"<span style='font-family: 微软雅黑;font-size: 15px;'>感谢您的参与，下次再接再厉。</span>",html: true});
+						return;
+					}
+						 // 如果在执行就退出
+					isture = true; // 标志为 在执
+					clickfunc();
+				 });
+				var rotateFunc = function(awards, angle, text) {
+					isture = true;
+					$btn.stopRotate();
+					$btn.rotate({
+						angle: 0,
+						duration: 4000, //旋转时间
+						animateTo: angle + 1440, //让它根据得出来的结果加上1440度旋转
+						callback: function() {
+							isture = false; // 标志为 执行完毕
+							 swal(text, "非常感谢，下期再见。", "success"); 
+						}
+					});
+				};
+			});
+
+		</script>
+		<!--<script src="js/style.js"></script>
+	--><p class="MsoNormal" align="center" style="margin-bottom: 7.8pt; text-align: center; line-height: 90%; background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;">
+			<b><span id="p1" lang="EN-US" style="font-size: 14pt; line-height: 150%; font-family: 微软雅黑, sans-serif;"></span>
+			</b>
+			
+			<b> <span style="font-size: 14pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">年</span>
+			<b><span id="p2" lang="EN-US" style="font-size: 14pt; line-height: 150%; font-family: 微软雅黑, sans-serif;"></span>
+			</b>
+			    <span style="font-size: 14pt; line-height: 150%; font-family: 微软雅黑, sans-serif;">月郑州<span lang="EN-US">联通</span>大转盘抽奖规则<span lang="EN-US"><o:p></o:p>
+				</span>
+			</span>
+			</b>
+		</p>
+
+	</body>
+
+</html>

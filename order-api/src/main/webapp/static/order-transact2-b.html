@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>流量业务办理</title>
+
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<!-- <link href="https://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet"> -->
+	<!-- <link href="css/style.min.css?v=4.0.0" rel="stylesheet"> -->
+	<!-- <link href="css/weui.min.css" rel="stylesheet">-->
+	<style type="text/css">
+	/* UI CSS */
+ 	*{
+	    margin: 0;
+	}
+	body {
+    	line-height: 1.6;
+    }
+/*     .btn-white.active, .btn-white:active, .btn-white {
+    color: inherit;
+    border: 1px solid #d2d2d2;
+} */
+	.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+		cursor: not-allowed;
+		filter: alpha(opacity = 65);
+		-webkit-box-shadow: none;
+		box-shadow: none;
+		opacity: 1.0;
+	}
+	.modal-backdrop2 {
+	    position: fixed;
+	    top: 0;
+	    right: 0;
+	    bottom: 0;
+	    left: 0;
+	    z-index: 1040;
+	    /* background-color: thistle; */
+	}
+	label{
+		font-weight: 400;
+	}
+	.gray-bg {
+	    background-color: #EFEFF5;
+	}
+	hr {border-top: 1px solid #E0E0E0;}
+	.form-control:focus, .single-line:focus {
+		border-color: #bbb !important
+	}
+	.form-control{border: 1px solid #bbb; background-color: inherit;}
+	.wrapper-content {padding: 10px;}
+	.ibox-content{ background-color: inherit;   padding: 15px 20px 20px;}
+	* {
+	    font-family: 'Microsoft Yahei','Simsun',Helvetica,Arial,sans-serif;
+	    /*font-weight: 100;*/
+	}
+	.row {
+	    margin-right: -9px;
+	    margin-left: -9px;
+	}
+	.col{padding-right: 5px;  padding-left: 5px;}
+	.selected{
+		float: left;
+	    width: auto;
+	    line-height: 40px;
+	    margin: 5px 2% 5px 0;
+	    text-align: center;
+    	font-size: 16px;
+    	box-sizing: border-box;
+    	border-radius: 2px;
+    	border: 1px solid #ec661b;
+    	background: url(./img/ico_duigou@3x.png) no-repeat right bottom;
+    	background-size: 16px 16px;
+    	padding-right: 16px;
+    	padding-left: 16px;
+	}
+	.unselected{
+		float: left;
+	    width: auto;
+	    line-height: 40px;
+	    margin: 5px 2% 5px 0;
+	    text-align: center;
+    	font-size: 16px;
+    	box-sizing: border-box;
+    	border-radius: 2px;
+    	border: 1px solid #ec661b;
+    	/* background: url(./img/ico_duigou@3x.png) no-repeat right bottom; */
+    	background-size: 16px 16px;
+    	padding-right: 16px;
+    	padding-left: 16px;
+	}
+	.btn{
+		/*background-image:url(./img/juxing_yanzhengmashuruzhengque@3x.png);*/
+		border-radius: 2px;
+		width: 100%;
+		height: 40px;
+		font-size: 16px;
+		font-weight: 100;  /*字体加粗*/
+		line-height: 1.6;
+		/*background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#ec6618),color-stop(1,#ed7c18));*/
+		background-color:#F47327;
+		color:white;
+    	padding: 6px 0px;
+	}
+	.btn_sended{
+		border-radius: 4px;
+		width: 100%;
+		height: 40px;
+		font-size: 14px;
+	    /*background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#ececec),color-stop(1,#e5e5e5));*/
+	    background-color:#DEDEE0;
+		color:#636363;
+    	padding: 6px 0px;
+	}
+	.modal-body {
+    	text-align: center;
+    	padding: 20px 30px 30px;
+    }
+    img {
+    	width: 40%;
+    }
+    .modal-header {
+	    padding: 30px 15px;
+	    text-align: center;
+	    border-bottom:0px;
+	}
+	.modal-dialog {
+    	margin-top: 120px;
+	    /* margin-left: 50px;
+	    margin-right: 50px; */
+    }
+	@media all and (max-width: 540px) {
+		.sweet-alert {
+			width: auto;
+			margin-left: 0;
+			margin-right: 0;
+			left: 60px;
+			right: 60px;
+		}
+	    .modal-dialog {
+	    	margin-top: 120px;
+		    margin-left: 50px;
+		    margin-right: 50px;
+	    }
+	    .modal-footer {
+	    	border-top:0px;
+	    }
+    }
+	</style>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!-- <script src="js/jquery-bootstrap.js"></script> -->
+	<script type="text/javascript"> 
+	var host = window.location.host;
+	//var host="cl.buruohuainian.cn";
+	//var host="172.16.63.189:8080";
+	var content = '<div class="ibox-content" style="border-top-width: 0px;">'+
+'			<div id="page_content">'+
+'				<div class="row">'+
+'					<p style="font-size: 19px;">尊敬的微信联通用户，您好！</p>'+
+'				</div>'+
+'				<div class="row form-group" style="margin-bottom: 0px;">'+
+'					<p class="" id="wxhsh" style="font-size: 15px;margin-bottom: 0px;">'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'					<!-- 您的4G套餐共含流量**M,截止*月**日，您使用流量已达**M。您已连续两个月流量使用率超过70%，为节省您的流量资费建议您办理100元1G国内流量半年包，6个月内可尽情使用。点击详情链接进行订购，即时生效。 -->'+
+'					</p>'+
+'				</div>'+
+'				<div class="row"><hr></div>'+
+'				<div class="row form-group" id="content" style="margin-bottom: 0px;">'+
+/* '					<div id="product" class="col-xs-12 col" style="padding-left: 0px;">'+
+'						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+
+'						<!-- 10元1GB省内流量假日包（7天）（豫） -->'+
+'					</div>'+ */
+'				</div>'+
+'				<div class="row"><hr></div>'+
+'				<div class="row form-group" style="margin-bottom: 20px;">'+
+'					<div class="col-xs-7 col" style="padding-left: 0px;">'+
+'						<input class="captcha form-control" type="text" id="captcha" name="captcha" onfocus="cleaniput();"'+ 
+'						placeholder="请输入验证码" style="height:40px; border-radius:2px;color:#bbb"/>'+
+'					</div>'+
+'					<div class="col-xs-5 col" style="padding-right: 0px;">'+
+'						<button id="smsbtn" class= "btn" type="button" onclick="sendCode();" data-loading-text="发送中...">发送验证码</button>'+						
+'					</div>'+
+'				</div>'+
+'				<div class="row form-group">'+
+'					<button id="banli" type="button" class="btn" onclick="banli();" data-loading-text="办理中..." >办理</button>'+
+'				</div>'+
+'			</div>'+
+'		</div>'+
+'		<div class="modal fade bs-example-modal-sm" id="success" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">'+
+'		  <div class="modal-dialog modal-sm">'+
+'		    <div class="modal-content">'+
+'				<div class="modal-header">'+
+'					<img src="./img/icon_chenggong@3x.png" />'+
+'				</div>'+
+'				<div class="modal-body">'+
+'					<p style="font-size: 16px;">'+
+'						订购成功！'+
+'					</p>'+
+'				</div>'+
+'				<div class="modal-footer">'+
+'					<button type="button" class="btn btn-white" data-dismiss="modal" onclick="backToWeixin();">确定</button>'+
+'				</div>'+
+'		    </div>'+
+'		  </div>'+
+'		</div>'+
+'		<div class="modal fade bs-example-modal-sm" id="error" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">'+
+'		  <div class="modal-dialog modal-sm">'+
+'		    <div class="modal-content">'+
+'				<div class="modal-header">'+
+'					<img src="./img/icon_cs@3x.png" />'+
+'				</div>'+
+'				<div class="modal-body">'+
+'					<p style="font-size: 16px;">'+
+'						网络超时，请稍后重试！'+
+'					</p>'+
+'				</div>'+
+'				<div class="modal-footer">'+
+'					<button type="button" class="btn btn-white" data-dismiss="modal" onclick="rebtn();">确定</button>'+
+'				</div>'+
+'		    </div>'+
+		 ' </div>'+
+		'</div>';
+			function GetRequest() {
+				var url = location.search;
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
+			}
+			var type = 'flow'; //页面类型：流量订购
+			//var workid; //工单id
+			$.ajax({
+				type: "get",
+				//async: false,
+				contentType: "application/json",
+				url: "http://"+host+"/form/findById?workid="+GetRequest().id+"&key="+GetRequest().key,
+				dataType: "json",
+				success: function(result){
+					if(result.massage == '1'){ //url校验失败
+						location.href="error.html";
+					}else if(result.result == "1101") { //工单完成   空  则是   未完成。
+						//alert("您的工单已经办理完成！不可重复办理。");
+						var info="<div class='ibox-content' style='border-top-width: 0px;'><div id='page_content'><div class='form-group'><p class='text-center' style='margin-top: 100px;'>"+
+							"<span style='position:absolute;margin-top:55px;margin-left:8px;'>不可重复办理!</span><img src='./img/pic@3x.png' style='width:200px;'></p></div><div class='row form-group' style='margin-bottom: 150px;'>"+
+							"<p class='text-center' style='font-size: 18px;'>您的流量已经办理完成！</p></div><div class='row form-group'>"+
+							"<a type='button' class='btn btn-w-m btn-warning btn-block' onclick='closeWind();'>返回</a></div></div></div>";
+						/* $("#page_content").children().remove();
+						$("#page_content").append(info); */
+						$("body").append(info);
+					}else{
+						$("body").append(content);
+						var wxhsh = result.wxhsh.replace("点击详情链接进行订购，即时生效。","")
+						wxhsh2 = wxhsh.replace(/\\n/g," ");
+						$("#wxhsh").html(wxhsh2);
+						$("#content").append("<div class='col-xs-12 col' style='padding-left: 0px;'><label id='product' class='selected'>"+result.product1name+"</label></div>");
+						$("#product").data("data",result.product1id);
+						$("#product").data("number",result.number1);  //产品序号
+						if(result.product2name){
+							//console.log("存在");
+							var html="<div class='col-xs-12 col' style='padding-left: 0px;'><label id='product2' class='unselected'>"+result.product2name+"</label></div>";
+							$("#content").append(html);
+							$("#product2").data("data",result.product2id); 
+							$("#product2").data("number",result.number2);
+						}
+						if(result.product3name){
+							var html3="<div class='col-xs-12 col' style='padding-left: 0px;'><label id='product3' class='unselected'>"+result.product3name+"</label></div>";
+							$("#content").append(html3);
+							$("#product3").data("data",result.product3id);
+							$("#product3").data("number",result.number3);
+						}
+						$('#content').on("click","label",function(){
+							$("#content div label").removeClass("selected");
+							$("#content div label").addClass("unselected");
+						    $(this).addClass("selected");
+						});
+					}
+				}
+			});
+	</script>
+</head>
+
+<body class="gray-bg">
+		<!-- <script src="js/bootstrap.min.js?v=3.3.5"></script> -->
+		<!-- <script src='https://rawgit.com/progrape/weui.js/master/dist/weui.js'></script> -->
+		<script src="layer_mobile/layer.js"></script>
+		<script type="text/javascript">
+			//恢复办理按钮按钮状态
+			function rebtn(){
+	    	  	$("#banli").removeClass("btn_sended");
+	    	  	$("#banli").removeAttr("disabled");
+	    	  	//蒙版消失
+	    	  	$(".modal-backdrop2").remove();
+	    	  	//按钮文字提示恢复
+	    	  	$("#banli").button('reset');
+			}
+			//向手机发送验证码
+			function sendCode(){
+				$("#captcha").val("");
+				var $sending = $("#smsbtn").button('loading');
+				$.ajax({
+					type: "get",
+					url: "http://"+host+"/form/smsSend?workid="+GetRequest().id,
+					dataType: "json",
+					//timeout:1500,
+					success: function(rel) {
+						//1.短信发送成功   2.走业务异常
+						if(rel.massage=="验证码发送成功"){
+							sended($sending);
+						}else{
+							//业务异常页面
+							location.href="error.html";
+						}
+					},
+					error:function(err){
+						$sending.button('reset');
+						console.log(err);  //网络异常，重试页面
+						$('#error').modal('show')
+					}
+				});
+			}
+			//订单id为2
+			function banli(){
+				//按钮变灰不可操作
+ 				$("#banli").addClass("btn_sended");
+				$("#banli").blur();
+				$("#banli").attr({"disabled":"disabled"});
+				//添加蒙板
+				$("body").append("<div class='modal-backdrop2 fade in'></div>");
+				//按钮提示办理中...
+				$("#banli").button('loading');
+				var product_fk_id = $("#content .selected").data("data");
+				var product_nuber = $("#content .selected").data("number");
+				//1.新增订单记录，回写工单结果和时间。2.调用流量的办理接口
+				$.ajax({
+					type: "get",
+					url: "http://"+host+"/form/sendBanli?workid=" + GetRequest().id + "&type=" + type +"&productPkId="+product_fk_id+"&number="+product_nuber+"&captcha=" + $("#captcha").val(),
+					dataType: "json",
+					//timeout:1500,
+					success: function(rel) {
+						//响应到结果后，按钮的颜色恢复，蒙板学消失
+						rebtn();
+						if (rel.message == "办理成功") {
+							// alert("办理成功"); //弹出框，并且关闭。
+							//$('#success').modal('show');
+							//$('#success p').html("<p>"+rel.workId+"</p><p>"+rel.message+"</p><p>发送："+rel.RPC_start+"</p><p>time1"+rel.time1+"</p><p>time2"+rel.time2+"</p><p>time3"+rel.time3+"</p><p>time4"+rel.time4+"</p><p>接收："+rel.RPC_end+"</p>");
+							$('#success').modal({backdrop:'static'});
+						} else if (rel.message == "办理失败"){  //业务异常，走异常页面。 
+							location.href="error.html?workId="+rel.workId;
+						} else{  //验证错误，为空，超时，三次以后报信息弹框
+							//alert(rel.message);
+							/* var html = "<div id='toast'><div class='weui-mask_transparent'></div><div class='weui-toast'><p class='weui-toast__content'>"+rel.message+"</p></div></div>";
+							$("body").append(html);
+							setTimeout(function () {
+								$("#toast").remove();
+				            }, 100*2000); */
+				             layer.open({
+							    content: rel.message
+							    ,style: 'padding: 10px 25px;bottom: 120px;'
+							    ,skin: 'msg'
+							    ,time: 3 //2秒后自动关闭
+							 });
+						}
+					},
+					error: function(err){
+						console.log(err);
+						//$('#error').modal('show');
+						$('#error').modal({backdrop:'static'});
+					}
+				});
+			}
+
+			function closeWind(){
+				WeixinJSBridge.call('closeWindow');
+			}
+			function sended($sending){
+				// 倒计时，按钮变灰色，不可使用。
+				$("#smsbtn").addClass("btn_sended");
+				$("#smsbtn").blur();
+				$("#smsbtn").attr({"disabled":"disabled"});
+				//记时开始
+				n=60;
+				var t1 = setInterval(function(){
+			        n--;
+			        document.getElementById("smsbtn").innerHTML = "重新发送("+n+")";
+		    	}, 1000);
+		    	//定时跳转到页面
+		    	t2 = setTimeout(function(){
+		    	  	clearInterval(t1);
+		    	  	n=60;
+		    	  	document.getElementById("smsbtn").innerHTML = "重新发送";
+		    	  	$("#smsbtn").removeClass("btn_sended");
+		    	  	$("#smsbtn").removeAttr("disabled");
+		    	  	//取消loading效果
+			    	$sending.button('reset');
+		    	}, 60000);
+			}
+			function cleaniput(){
+				$("#captcha").val("");
+			}
+			function backToWeixin(){
+				WeixinJSBridge.call("closeWindow");
+			}
+		</script>
+</body>
+</html>

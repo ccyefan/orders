@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>订单管理</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+<link href="css/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+<link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+	<!-- <div class="wrapper wrapper-content animated fadeInRight"> -->
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>
+							订单管理 <small></small>
+						</h5>
+						<div class="ibox-tools"></div>
+					</div>
+					<div class="ibox-content">
+						<table class="table table-striped table-bordered table-hover dataTables-example">
+							<thead>
+								<tr>
+									<th style="width: 100px;">订单号</th>
+									<th style="width: 150px;">用户</th>
+									<th style="width: 400px;">产品</th>
+									<!-- <th>活动</th> -->
+									<th style="width: 100px;">支付金额</th>
+									<th style="width: 200px;">订单生成时间</th>
+									<th style="width: 100px;">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="gradeX">
+									<td>Trident</td>
+									<td>Internet Explorer 4.0</td>
+									<td>Win 95+</td>
+									<!-- <td class="center">4</td> -->
+									<td class="center">X</td>
+									<td class="center">X</td>
+									<td class="center">X</td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+						<div class="modal inmodal" id="ModalFind" tabindex="-1" role="dialog"
+							aria--hidden="true" style="display: none;">
+							<div class="modal-dialog">
+								<div class="modal-content animated bounceInRight">
+									<div class="modal-header">
+										<h4 class="modal-title">
+											订单详情
+										</h4>
+									</div>
+									<small class="font-bold">
+										<form id="commentForm">
+											<div class="modal-body">
+												<div class="form-group">
+													<label>
+														订单号
+													</label>
+													<input type="text" name="comment_num" readonly="readonly"
+														class="form-control required digits"  id="number" />
+													<label>
+														用户手机号
+													</label>
+													<input type="text" class="form-control required "
+														name="comment_area" id="telNumber" />
+													<label>
+														套餐产品
+													</label>
+													<input type="text" class="form-control required "
+														name="comment_day" id="product" />
+													<!-- <label>
+														活动
+													</label>
+													<input type="text" class="form-control required "
+														 id="activityDetail" />
+													<label> -->
+														支付金额
+													</label>
+													<input type="text" class="form-control required "
+														name="comment_morning" id="payAmount" />
+													<label>
+														订单生成时间
+													</label>
+													<input type="text" name="comment_afternoon" id="date"
+														class="form-control required"/>
+												</div>
+											</div>
+										</form>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-white"
+												data-dismiss="modal" id="shutdown">
+												关闭
+											</button>
+											</div> </small>
+								</div>
+								<small class="font-bold"> </small>
+							</div>
+							<small class="font-bold"> </small>
+						</div>
+	<div class="modal inmodal" id="ModalUpdate" tabindex="-1" role="dialog"
+							aria--hidden="true" style="display: none;">
+							<div class="modal-dialog">
+								<div class="modal-content animated bounceInRight">
+									<div class="modal-header">
+										<h4 class="modal-title">
+											修改订单
+										</h4>
+									</div>
+									<small class="font-bold">
+										<form id="commentForm2">
+											<div class="modal-body">
+												<div class="form-group">
+													<label>
+														订单号
+													</label>
+													<input name="id" type="text" readonly="readonly"
+														class="form-control required digits"  id="number2" />
+													<label>
+														用户手机号
+													</label>
+													<input type="text" name="telNum" id="telNumber2" class="form-control required "/>
+													<!-- <select name="ouser" id="telNumber2" class="form-control required"></select> -->
+													<label>
+														套餐产品
+													</label>
+													<!-- <input type="text" class="form-control required "
+														name="comment_day" id="product2" /> -->
+													<select name="product" id="product2" onchange="UpProduct();" class="form-control required"></select>
+													<label>
+														活动
+													</label>
+													<!-- <input type="text" class="form-control required "
+														 id="activityDetail2" /> -->
+													<select name="activityDetail" id="activityDetail2" class="form-control required"></select>
+													<label>
+														支付金额
+													</label>
+													<input type="text" class="form-control required "
+														name="payAmount" id="payAmount2" />
+													<label>
+														订单生成时间
+													</label>
+													<input name="date" type="text" id="date2"
+														class="form-control required"/>
+												</div>
+											</div>
+										</form>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-white"
+												data-dismiss="modal" >
+												取消
+											</button>
+											<button type="button" class="btn btn-primary" onclick="saveUpdate();">
+												保存修改
+											</button>
+										</div> </small>
+								</div>
+								<small class="font-bold"> </small>
+							</div>
+							<small class="font-bold"> </small>
+						</div>
+	<script src="js/config.js"></script>
+	<script src="js/jquery.min.js?v=2.1.4"></script>
+	<script src="js/bootstrap.min.js?v=3.3.5"></script>
+	<script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+	<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+	<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".dataTables-example").dataTable({
+				"language": {
+				 	"oPaginate": {"sJump":"跳转"}
+				 },
+           		"serverSide": true,
+           		"ajax":function(data, callback, settings){
+           			data.size = data.length;
+           			data.page = data.start/data.length;
+           			var index = data.order[0].column;
+           			var colval = (index==0)?'id':data.columns[index].data;
+           			data.sort = colval+','+data.order[0].dir;
+           			$.ajax({
+						type : "get",
+						url : "http://"+host+"/form/order",
+						dataType : "json",
+						data:data,
+						success : function(result) {
+           					 var returnData = {};
+           					 returnData.draw = data.draw;//这里直接自行返回了draw计数器,应该由后台返回
+           					 returnData.recordsTotal = result.page.totalElements;
+                             returnData.recordsFiltered = result.page.totalElements;//后台不实现过滤功能，每次查询均视作全部结果
+                             returnData.data = result._embedded.order;
+                             callback(returnData);
+           				}
+           			});
+           		},
+				columns: [
+        		   	{ data: 'pkId' },
+           			{ data: 'telNum' },
+					{ data: 'product.productName' },
+           			{ data: 'payAmount' },
+           			{ data: 'date'},
+           			{ data: null}
+       			],
+       			columnDefs:[
+       				{
+	              		targets: 5,
+	              		render: function (data, type, row, meta) {
+	                  				return '<a type="button" class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target="#ModalFind" onclick=find('+row.pkId+') >查看</a>'
+	                  				+'<span>|</span><a type="button" class="btn btn-danger btn-xs" href="#" onclick=delFromID('+row.pkId+',this) >删除</a>';
+                  				/* +'<span>|</span><button type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#ModalUpdate" href="#" onclick=updata('+row.pkId+') >修改</button>'; */
+              			}
+          			},
+          			{ "orderable": true, "targets":5}
+          		]				
+			});
+		});
+		function delFromID(id,th){
+			swal({
+						 title: "您确定要删除这条记录吗",
+						 text: "删除后将无法恢复，请谨慎操作！",
+						 type: "warning",
+						 showCancelButton: true,
+						 confirmButtonColor: "#DD6B55",
+						 confirmButtonText: "删除",
+						 closeOnConfirm: false
+				 }, function (){
+						 swal("删除成功！", "您已经永久删除了这条信息。", "success");
+						 var tr=th.parentNode.parentNode;
+			 			$.ajax({
+			 				type : "DELETE",
+			 				url : "http://"+host+"/form/order/"+id,
+			 				dataType : "json",
+			 				success : function(result) {
+			 					//$(".dataTables-example").DataTable().row(th.parents('tr')).remove().draw();
+			 					tr.parentNode.removeChild(tr);
+			 				}
+			 			});
+			});
+		};
+		function updata(datas){
+			var userOptcontent="";
+			var uid;
+			var proOptcontent="";
+			var pid;
+			var actOptcontent="";
+			var aid;
+			//用户列表
+			/*$.ajax({
+				type:"GET",
+				url:"http://"+host+"/form/ouser",
+				async:false,
+				dataType:"json",
+				success:function(reluser){
+					var user=reluser._embedded.ouser
+					for(i=0;i<user.length;i++){
+							userOptcontent+="<option value="+user[i].pkId+">"+user[i].telNumber+"</option>";
+					}
+					$("#telNumber2").html(userOptcontent);
+				}
+			});*/
+			//产品列表
+			$.ajax({
+				type:"GET",
+				url:"http://"+host+"/form/product",
+				async:false,
+				dataType:"json",
+				success:function(relpro){
+					var pro=relpro._embedded.product
+					console.log(pro[0]);
+					for(i=0;i<pro.length;i++){
+							proOptcontent+="<option value="+pro[i].pkId+">"+pro[i].productName+"</option>";
+					}
+					$("#product2").html(proOptcontent);
+				}
+			});
+			//活动列表
+			$.ajax({
+				type:"GET",
+				url:"http://"+host+"/form/activitydetail",
+				async:false,
+				dataType:"json",
+				success:function(relact){
+					var act=relact._embedded.activitydetail;
+					console.log(act[0]);
+					for(i=0;i<act.length;i++){
+							actOptcontent+="<option value="+act[i].pkId+">"+act[i].activityStep+"</option>";
+					}
+					$("#activityDetail2").html(actOptcontent);
+				}
+			});
+			//一条订单记录
+			$.ajax({
+				type:"GET",
+				url:"http://"+host+"/form/order/"+datas,
+				async:false,
+				dataType:"json",
+				success:function(order){
+					$("#number2").val(order.pkId);
+					//uid=order.ouser.pkId;
+					$("#telNumber2").val(order.telNum);
+					pid=order.product.pkId;
+					aid=order.activityDetail.pkId;
+					$("#payAmount2").val(order.payAmount);
+					$("#date2").val(order.date);
+				}
+			});
+		//修改下拉框对应的信息
+		//$("#telNumber2").val(uid);
+		$("#product2").val(pid);
+		$("#activityDetail2").val(aid);
+		};
+		//保存修改
+		function saveUpdate(){
+			var comm2=$("#commentForm2").serializeObject();
+			//comm2.ouser={"id":comm2.ouser};
+			comm2.product={"id":comm2.product};
+			comm2.activityDetail={"id":comm2.activityDetail};
+			console.log(JSON.stringify(comm2));
+			$.ajax({
+				type:"POST",
+				contentType: "application/json",
+				url:"http://"+host+"/form/updateorderone",
+				dataType:"json",
+				data:JSON.stringify(comm2),
+				success:function(result){
+					console.log(result);
+					$("#ModalUpdate").modal('hide');
+					location.reload();
+				}
+			});
+		}
+		//修改订单表关联的产品(修改外键)
+		function UpProduct(){
+			console.log("http://"+host+"/form/order/"+$("#number2").val()+"/product");
+			console.log("http://"+host+"/form/product/"+$("#product2").val());
+			// $.ajax({
+			// 	type:"PUT",
+			// 	contentType: "text/uri-list",
+			// 	url:"http://"+host+"/form/order/"+$("#number2").val()+"/product",
+			// 	dataType:"text/uri-list",
+			// 	data:"http://"+host+"/form/product/"+$("#product2").val(),
+			// 	success:function(result){
+			// 		console.log(result);
+			// 	}
+			// });
+		}
+		function find(rid){
+			$.ajax({
+				type:"GET",
+				url:"http://"+host+"/form/order/"+rid,
+				dataType:"json",
+				success:function(order){
+					$("#number").val(order.pkId);
+					$("#telNumber").val(order.telNum);
+					$("#product").val(order.product.productName);
+/* 					$("#activityDetail").val(order.activityDetail.activityStep); */
+					$("#payAmount").val(order.payAmount);
+					$("#date").val(order.date);
+				}
+			});
+		}
+		// 将表单数据转换成json对象
+		$.fn.serializeObject = function() {
+		   var o = {};
+		   var a = this.serializeArray();
+		   $.each(a, function() {
+		       if (o[this.name]) {
+		           if (!o[this.name].push) {
+		               o[this.name] = [o[this.name]];
+		           }
+		           o[this.name].push(this.value || '');
+		       } else {
+		           o[this.name] = this.value || '';
+		       }
+		   });
+		   return o;
+		};
+	</script>
+</body>
+</html>

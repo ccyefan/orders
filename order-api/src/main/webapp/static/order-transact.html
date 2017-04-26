@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>存费送费业务办理</title>
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1 ,user-scalable=no">
+<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+<link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+<style type="text/css">
+.form-group {
+	position: relative;
+}
+
+.right_float {
+	float: ;
+}
+</style>
+</head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content animated fadeIn">
+		<div class="ibox float-e-margins">
+			<div class="ibox-title">
+				<h5>4G全国套餐(存费送费)</h5>
+			</div>
+			<div class="ibox-content">
+				<h5>4G全国套餐(存费送费)!让您用的起 用的放心的套餐。</h5>
+				<hr>
+				<div>
+					<div class="row form-group">
+						<label class="col-md-2 control-label pull-left" style="line-height:4;">价格：</label>
+						<!-- <div ><h1><small style="color:red"><em>￥</em/><em><span id="payA">120<span></em></small></h1></div> -->
+						<div ><em><h1><small><span style="color:red">￥</span><span id="payA" style="color:red">120</span><small></h1></em></div>
+					</div>
+					<div class="row form-group">
+							<label class="col-md-2 control-label pull-left" >商品评价：</label>
+							<div class="col-md-10">(已经有9052人评价)</div>
+					</div>
+					<hr>
+					<div class="row form-group">
+						<label class="col-md-2 control-label pull-left">号码归属：</label>
+						<div class="col-md-10"><span id="ownerPlace">郑州 河南</span></span></div>
+					</div>
+					<div class="row form-group">
+						<label class="col-md-2 control-label pull-left">套餐内容：</label>
+							<div class="col-md-10"><span id="product" class="label label-info" style="font-size: 14px">76元套餐</span> <br />
+						<span class="small" id="productDetail" >800M流量，200分钟通话，来电显示</span></div>
+					</div>
+					<div class="row form-group">
+						<label class="col-md-2  control-label pull-left">优惠活动：</label>
+							<div class="col-md-10"><span id="activityDetail" class="label label-info" style="font-size: 14px">得360元话费 </span><br />
+							<span class="small" id= "remarks" >从合约生效起每月返还30元话费，持续12个月</span></div>
+					</div>
+					<div class="row form-group">
+						<label class="col-md-2 control-label pull-left">手机号码 ：</label>
+						<div class="col-md-10" id="telnumber"></div>
+					</div>
+					<hr>
+					<div class="row form-group">
+						<button type="button" class="btn btn-w-m btn-warning btn-block" onclick="banli();">办理</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="js/jquery.min.js?v=2.1.4"></script>
+		<script src="js/bootstrap.min.js?v=3.3.5"></script>
+<script type="text/javascript">
+var type='package';  //页面类型：存费送费
+//页面加载时传入用户手机号码  数据准备
+function GetRequest() {
+	var url=location.search;
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			strs = str.split("&");
+			for(var i = 0; i < strs.length; i ++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+			}
+	}
+	return theRequest;
+}
+// GetRequest().telnum
+$("#telnumber").html(GetRequest().telnum);
+var workid; //工单id
+//使用电话查询工单接口
+$.ajax({
+	type:"get",
+	contentType: "application/json",
+	// url:"http://172.16.22.122/form/work/search/findByUserTelNumber?tel="+GetRequest().telnum,
+	url: "http://192.168.1.20:9006/form/work/search/findByTelandProtype?tel=" + GetRequest().telnum+"&type="+type,
+	// url:"http://192.168.1.20:9006/form/work/search/findByUserTelNumber?tel=15001111110",
+	dataType : "json",
+	success : function(result) {
+		// var works=result._embedded.work;
+		// console.log(works);
+		if (result.product.result == "工单完成") { //工单完成   空  则是   未完成。
+			// alert("您的工单已经办理完成！不可重复办理。");
+			var info = "<div class='text-warning text-center'><div style='height:80px'></div><h2>您的活动已经办理完成！</h2><h2>不可重复办理。<h2>" +
+				"<div style='height:140px'></div><button type='button' class='btn btn-w-m btn-warning btn-block' onclick='closeWind();'>返回</button>" +
+				"<div>";
+			$(".ibox-title").remove();
+			$("#page_content").children().remove();
+			$("#page_content").append(info);
+		} else {
+			// alert(i+":存费");
+			$("#payA").html(result.activityDetail.mealPrices);
+			// $("#ownerPlace").html(result.ouser.ownerPlace);
+			$("#product").html(result.product.productName);
+			$("#productDetail").html(result.product.productName.productDetail);
+			$("#activityDetail").html(result.activityDetail.activityStep);
+			$("#remarks").html(result.activityDetail.activity.remarks);
+			workid=result.pkId;
+		}
+	}
+});
+
+// var telnumber=13671343167;
+var id;
+
+
+//初始化页面。根据手机号查询工单
+/*
+	$.ajax({
+		type:"get",
+		contentType: "application/json",
+		url:"http://172.16.22.122:9006/form/ouser/search/findByTelNumber?telnum="+telnumber,
+		dataType : "json",
+		async:false,
+		success : function(result) {
+			id=result.pkId;
+		}
+	});*/
+	//根据用户查寻一条任务工单
+/*	$.ajax({
+		type:"get",
+		contentType: "application/json",
+		url:"http://172.16.22.122:9006/form/work/search/findByOuserAndType?uid="+id+"&type="+type,
+		dataType : "json",
+		success : function(results) {
+				$("#payA").html(results.activityDetail.mealPrices);
+				$("#ownerPlace").html(results.ouser.ownerPlace);
+				$("#product").html(results.product.productName);
+				$("#activityDetail").html(results.activityDetail.activityStep);
+		},
+		error:function(err){
+			alert("此页面不能办理流量业务！");
+		}
+	});
+*/
+//订单id为2  页面类型
+function banli(){
+	console.log(workid);
+	$.ajax({
+			type : "get",
+			contentType: "application/json",
+			url : "http://172.16.22.122:9006/form/saveorder?workid="+workid+"&type="+type,
+			dataType : "json",
+			success : function() {
+					alert("添加成功！");
+			}
+		});
+}
+</script>
+</body>
+</html>

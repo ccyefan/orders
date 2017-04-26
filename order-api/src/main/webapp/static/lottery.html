@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>奖品管理</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+		<link href="css/plugins/dataTables/dataTables.bootstrap.css"
+			rel="stylesheet">
+		<link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+		<link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+		<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+		<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+		<link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+		<link rel="shortcut icon" href="favicon.ico">
+		<link href="css/animate.min.css" rel="stylesheet">
+
+		<script src="js/config.js">
+</script>
+		<script src="js/jquery.min.js?v=2.1.4">
+</script>
+		<script src="js/bootstrap.min.js?v=3.3.5">
+</script>
+		<script src="js/plugins/datapicker/bootstrap-datepicker.js">
+</script>
+		<script src="js/plugins/dataTables/jquery.dataTables.js">
+</script>
+		<script src="js/plugins/dataTables/dataTables.bootstrap.js">
+</script>
+		<script src="js/plugins/sweetalert/sweetalert.min.js">
+</script>
+		<script src="js/plugins/prettyfile/bootstrap-prettyfile.js">
+</script>
+		<script src="js/plugins/clockpicker/clockpicker.js">
+</script>
+		<script src="js/content.min.js?v=1.0.0">
+</script>
+		<script src="js/plugins/validate/jquery.validate.min.js">
+</script>
+		<script src="js/plugins/validate/messages_zh.min.js">
+</script>
+		<script src="js/demo/form-validate-demo.min.js">
+</script>
+		<script src="js/demo/form-validate-demo.min.js">
+</script>
+
+		<style type="text/css">
+a:hover {
+	text-decoration: underline;
+}
+</style>
+		<script type="text/javascript">
+
+$(document)
+		.ready(
+				function() {
+					$('#file-pretty input[type="file"]').prettyFile();
+					var datas;
+					$
+							.ajax( {
+								type : "get",
+								url : "http://" + host + "/form/lottery",
+								dataType : "json",
+								success : function(result) {
+									datas = result._embedded.lottery;
+									//console.log(datas[0]);
+									$(".example")
+											.dataTable(
+													{
+													"language": {
+														 	"oPaginate": {"sJump":"跳转"}
+														},
+														data : datas,
+														columns : [
+																{
+																	data : 'pkId'
+																},
+																{
+																	data : 'desc'
+																},
+																{
+																	data : 'name'
+																},
+																{
+																	data : 'amount'
+																},
+																{
+																	data : 'period'
+																},
+																{
+																	data : 'probability'
+																}
+
+														],
+														columnDefs : [ {
+															targets : 6,
+															render : function(
+																	data, type,
+																	row, meta) {
+																return '<button type="button" data-toggle="modal" data-target="#myModal" onclick=updFromID('
+																		+ row.pkId
+																		+ ') >修改</button>'
+																		+ '<span>|</span><a type="button" class="btn btn-danger btn-xs del toDelete" href="#" onclick=delFromID('
+																		+ row.pkId
+																		+ ',this) >删除</a>';
+															}
+														} ]
+													});
+								}
+							});
+
+				});
+
+/*function updFromID(id){
+$.ajax({
+				type: "GET",
+				url: "http://"+host+"/form/lottery",
+				dataType: "json",
+				success: function(result) {
+					var datas = result._embedded.lottery;
+					console.log(datas);
+						// console.log(pro[0]);
+					for (i = 0; i < datas.length; i++) {
+						Period += "<option value=" + datas[i].pkId + ">" + datas[i].period + "</option>";
+					}
+					$("#lottery3").html(Period);
+				}
+			});
+}*/
+function delFromID(id, th) {
+	//弹出层
+	swal( {
+		title : "您确定要删除这条记录吗",
+		text : "删除后将无法恢复，请谨慎操作！",
+		type : "warning",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "删除",
+		closeOnConfirm : false
+	}, function() {
+		swal("删除成功！", "您已经永久删除了这条信息。", "success");
+		//删除动作
+			var tr = th.parentNode.parentNode;
+			$.ajax( {
+				type : "DELETE",
+				url : "http://" + host + "/form/lottery/" + id,
+				dataType : "json",
+				success : function(result) {
+					tr.parentNode.removeChild(tr);
+				}
+			});
+		});
+};
+
+//查询
+function updFromID(id) {
+	$.ajax( {
+		type : "GET",
+		url : "http://" + host + "/form/lottery/" + id,
+		dataType : "json",
+		success : function(result) {
+			console.log(result);
+			$("#pkId1").val(result.pkId);
+			$("#name1").val(result.name);
+			$("#amount1").val(result.amount);
+			$("#period1").val(result.period);
+			$("#desc1").val(result.desc);
+			$("#probability1").val(result.probability);
+		}
+	})
+}
+
+//$(".toAdd").click(function(){
+//document.getElementById("productSave").reset();
+//});
+
+//将表单数据转换成json对象
+$.fn.serializeObject = function() {
+	var o = {};
+	var a = this.serializeArray();
+	$.each(a, function() {
+		if (o[this.name]) {
+			if (!o[this.name].push) {
+				o[this.name] = [ o[this.name] ];
+			}
+			o[this.name].push(this.value || '');
+		} else {
+			o[this.name] = this.value || '';
+		}
+	});
+	return o;
+};
+
+function add() {
+	var v = $("#commentForm").valid();
+	$("#commentForm").validate();
+	console.log(v);
+	if (v) {
+		$.ajax( {
+			type : "POST",
+			contentType : "application/json",
+			url : "http://" + host + "/form/lottery",
+			dataType : "json",
+			data : JSON.stringify($("#commentForm").serializeObject()),
+			success : function(result) {
+				location.reload();
+			}
+		});
+	}
+}
+//由期数生成抽奖队列表
+function gen() {
+	console.log($("#commentForm2").serializeObject().period);
+
+swal( {
+		title : "您确定要刷新抽奖队列表记录吗",
+		text : "刷新后将无法恢复，请谨慎操作！",
+		type : "warning",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "刷新",
+		closeOnConfirm : false
+	},function(){
+		$.ajax({
+			　　url:"http://"+host+"/form/gen/queue?period="+$("#commentForm2").serializeObject().period,
+			　　type:'get',
+			　　success:function(result){
+			　　　　//成功回调
+			   // $("#shutdown").click();
+				location.href = "/form/static/awardList.html";
+			　　}
+		      });
+		});
+}
+
+// 同步redis队列数据
+function redisAll() {
+	console.log($("#commentForm3").serializeObject().period);
+swal( {
+		title : "您确定要同步奖品记录吗",
+		text : "刷新后将无法恢复，请谨慎操作！",
+		type : "warning",
+		showCancelButton : true,
+		confirmButtonColor : "#DD6B55",
+		confirmButtonText : "同步",
+		closeOnConfirm : false
+	},
+	function(){
+		//alert("32132");
+		$.ajax({
+		//同步奖品表到队列
+			　　url:"http://"+host+"/form/redis/lottery?period="+$("#commentForm3").serializeObject().period,
+			　　type:'get',
+		      });
+		$.ajax({
+		//同步抽奖表到队列
+			　　url:"http://"+host+"/form/redis/award?period="+$("#commentForm3").serializeObject().period,
+			　　type:'get',
+			  });
+		$.ajax({
+		//初始化中奖用户及中奖信息队列
+			　　url:"http://"+host+"/form/award/user?period="+$("#commentForm3").serializeObject().period,
+			　　type:'get',
+			　　dataType:'json',
+		        });
+	    $.ajax({
+	    //初始化参与抽奖用户队列
+			　　url:"http://"+host+"/form/join/user?period="+$("#commentForm3").serializeObject().period,
+			　　type:'get',
+			　　dataType:'json',
+			    success : function(massage) {
+				location.href = "/form/static/lottery.html";
+			     }
+		      });
+	    
+		});
+};
+function check() {
+				location.href = "/form/static/awardList.html";
+};
+function update1() {
+	//修改数据
+	var s = $("#commentForm1").valid();
+	$("#commentForm1").validate();
+	console.log(s);
+	if (s) {
+		$.ajax( {
+			type : "PATCH",
+			contentType : "application/json",
+			url : "http://"+host+"/form/lottery/"
+					+ $("#pkId1").val(),
+			dataType : "json",
+			data : JSON.stringify($("#commentForm1").serializeObject()),
+			success : function(massage) {
+				$("#shutdown").click();
+				location.href = "/form/static/lottery.html";
+			}
+		});
+		
+	}
+}
+
+//文件上传
+/*function fileUpload(){
+ var formData = new FormData($( "#proForm" )[0]);
+ $.ajax({
+ url: 'http://'+host+':9006/form/excelSave',
+ type: 'POST',
+ data: formData,
+ async: false,
+ cache: false,
+ contentType: false,
+ processData: false,
+ success: function (returndata) {
+ if(returndata.stat){
+ alert("数据解析失败！请修正后重新上传！");	
+ }else{
+ alert("数据解析正确！");
+ location.href="/form/static/demo1.html";
+ }
+ },
+ error: function (returndata) {
+ console.log(returndata);
+ }
+ });
+ }
+ */
+ 
+</script>
+	</head>
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>
+						奖品管理
+					</h5>
+				</div>
+				<div class="ibox-content">
+					<button type="button" class="btn btn-primary toAdd"
+						data-toggle="modal" data-target="#myModal1">
+						添加
+					</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal"
+						data-target="#modalExcel">
+						上传Excel
+					</button>
+					<button type="button" class="btn btn-primary " data-toggle="modal"
+						data-target="#myModal2">
+						生成抽奖队列表
+					</button>
+					<button id="get" class="btn btn-primary" type="button"
+						onclick="check()">
+						查看抽奖队列表
+					</button>
+					<button type="button" class="btn btn-primary " data-toggle="modal"
+						data-target="#myModal3">
+						同步初始化redis队列数据
+					</button>
+
+
+					<table
+						class="table table-striped table-bordered table-hover example"
+						id="editable">
+						<thead>
+							<tr>
+								<th>
+									编号
+								</th>
+								<th>
+									奖品备注
+								</th>
+								<th>
+									奖品名称
+								</th>
+								<th>
+									数量
+								</th>
+								<th>
+									期数
+								</th>
+								<th>
+									中奖概率
+								</th>
+								<th>
+									操作
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+
+				<!-- 上传Excel -->
+				<!--<div class="modal inmodal" id="modalExcel" tabindex="-1"
+					role="dialog" aria-hidden="true" style="display: none;">
+					<div class="modal-dialog">
+						<div class="modal-content animated bounceInRight">
+							<small class="font-bold">
+								<div class="modal-body">
+									<div class="form-group">
+										<div id="file-pretty">
+											<form id="proForm">
+												<input type="file" name="upload" class="form-control" />
+												<input type="input" hidden="true" name="action">
+											</form>
+										</div>
+										<div class="col-md-1">
+											<input class="btn btn-primary" type="button" name="button"
+												onclick="fileUpload();" value="提交" />
+										</div>
+										<div class="col-md-1">
+											<button class="btn" data-dismiss="modal" aria-hidden="true">
+												关闭
+											</button>
+										</div>
+										<div class="col-md-9">
+											<h4></h4>
+										</div>
+										<div class="col-xs-7 col-md-offset-3">
+											<a href="http://"+host+":9006/form/download">如有问题，请下载模板查看</a>
+										</div>
+									</div>
+								</div> </small>
+						</div>
+					</div>
+			</div>-->
+				<!--同步初始化redis队列数据期数选择-->
+				<div class="modal inmodal" id="myModal3" tabindex="-1" role="dialog"
+					aria-hidden="true" style="display: none;">
+
+					<form class="form-horizontal m-t" id="commentForm3">
+						<div class="modal-dialog">
+							<div class="modal-content animated bounceInRight">
+								<div class="ibox float-e-margins">
+									<div class="modal-header">
+										<h4 class="modal-title">
+											同步数据库数据至redis
+										</h4>
+									</div>
+
+									<div class="ibox-content">
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label">
+												奖品期数：
+											</label>
+											<div class="col-sm-8">
+											<!--<select name="period" id="period3" class="form-control required">
+											<option>请选择...</option>
+											</select>
+											
+												--><select type="text" name="period"
+													class="form-control required ">
+													<option>
+														NationalDay
+													</option>
+													<option>
+														TheMayDay
+													</option>
+													<option>
+														SpringFestival
+													</option>
+													<option>
+														YuanDan
+													</option>
+													<option>
+														Shuang11
+													</option>
+													<option>
+														Shuang12
+													</option>
+													<option>
+														ZhongQiu
+													</option>
+												</select>
+												<span class="help-block m-b-none"><i
+													class="fa fa-info-circle"></i> 请选择活动期数</span>
+											</div>
+										</div>
+
+										<div class="modal-footer">
+											<button type="button" class="btn btn-white"
+												data-dismiss="modal" id="shutdown">
+												关闭
+											</button>
+											<button id="update" class="btn btn-primary" type="button"
+												onclick="redisAll()">
+												同步
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<!--生成奖品队列表期数选择-->
+				<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog"
+					aria-hidden="true" style="display: none;">
+					<form class="form-horizontal m-t" id="commentForm2">
+						<div class="modal-dialog">
+							<div class="modal-content animated bounceInRight">
+								<div class="ibox float-e-margins">
+								<div class="modal-header">
+										<h4 class="modal-title">
+											生成抽奖数据
+										</h4>
+									</div>
+									<div class="ibox-content">
+
+										<div class="form-group">
+											<label class="col-sm-3 control-label">
+												奖品期数：
+											</label>
+											<div class="col-sm-8">
+												<select type="text" name="period"
+													class="form-control required ">
+													<option>
+														NationalDay
+													</option>
+													<option>
+														TheMayDay
+													</option>
+													<option>
+														SpringFestival
+													</option>
+													<option>
+														YuanDan
+													</option>
+													<option>
+														Shuang11
+													</option>
+													<option>
+														Shuang12
+													</option>
+													<option>
+														ZhongQiu
+													</option>
+												</select>
+												<span class="help-block m-b-none"><i
+													class="fa fa-info-circle"></i> 请选择正确期数</span>
+											</div>
+										</div>
+
+										<div class="modal-footer">
+											<button type="button" class="btn btn-white"
+												data-dismiss="modal" id="shutdown">
+												关闭
+											</button>
+											<button id="update" class="btn btn-primary" type="button"
+												onclick="gen()">
+												生成
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+
+				<div class="modal inmodal" id="myModal1" tabindex="-1" role="dialog"
+					aria-hidden="true" style="display: none;">
+					<form class="form-horizontal m-t" id="commentForm">
+						<div class="modal-dialog">
+							<div class="modal-content animated bounceInRight">
+								<div class="ibox float-e-margins">
+								<div class="modal-header">
+										<h4 class="modal-title">
+											添加奖品
+										</h4>
+									</div>
+									<div class="ibox-content">
+										<form id="lottery1">
+											<div class="form-group">
+												<label class="col-sm-3 control-label">
+													编号：
+												</label>
+												<div class="col-sm-8">
+													<input readonly="readonly" id="pkId" name="id"
+														class="form-control " type="text">
+													<span class="help-block m-b-none"><i
+														class="fa fa-info-circle"></i> 以下均为必填项</span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">
+													奖品名称：
+												</label>
+												<div class="col-sm-8">
+													<input name="name" class="form-control required digits"
+														type="text">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">
+													中奖概率：
+												</label>
+												<div class="col-sm-8">
+													<input name="probability"
+														class="form-control required digits" type="text">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">
+													奖品数量：
+												</label>
+												<div class="col-sm-8">
+													<input name="amount" class="form-control required digits"
+														type="text">
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">
+													奖品期数：
+												</label>
+												<div class="col-sm-8">
+													<select type="text" name="period"
+														class="form-control required ">
+														<option>
+														NationalDay
+													</option>
+													<option>
+														TheMayDay
+													</option>
+													<option>
+														SpringFestival
+													</option>
+													<option>
+														YuanDan
+													</option>
+													<option>
+														Shuang11
+													</option>
+													<option>
+														Shuang12
+													</option>
+													<option>
+														ZhongQiu
+													</option>
+													</select>
+													<span class="help-block m-b-none"><i
+														class="fa fa-info-circle"></i> 请选择正确期数</span>
+												</div>
+											</div>
+											<div class="form-group">
+												<label class="col-sm-3 control-label">
+													奖品备注：
+												</label>
+												<div class="col-sm-8">
+													<input type="text" class="form-control required "
+														name="desc" type="text">
+												</div>
+											</div>
+									</div>
+
+									<div class="form-group">
+										<div class="modal-footer">
+											<button type="button" class="btn btn-white"
+												data-dismiss="modal" id="shutdown">
+												关闭
+											</button>
+											<button id="update" class="btn btn-primary" type="button"
+												onclick="add()">
+												提交
+											</button>
+										</div>
+									</div>
+								</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+		<!--修改页面 -->
+		<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"
+			aria-hidden="true" style="display: none;">
+			<form class="form-horizontal m-t" id="commentForm1">
+				<div class="modal-dialog">
+					<div class="modal-content animated bounceInRight">
+						<div class="ibox float-e-margins">
+						<div class="modal-header">
+										<h4 class="modal-title">
+											修改奖品数据
+										</h4>
+									</div>
+							<div class="ibox-content">
+								<form id="lottery">
+									<div class="form-group">
+										<label class="col-sm-3 control-label">
+											编号：
+										</label>
+										<div class="col-sm-8">
+											<input readonly="readonly" id="pkId1" name="id"
+												class="form-control " type="text">
+											<span class="help-block m-b-none"><i
+												class="fa fa-info-circle"></i> 以下均为必填项</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">
+											奖品名称：
+										</label>
+										<div class="col-sm-8">
+											<input id="name1" name="name"
+												class="form-control required digits" type="text">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">
+											中奖概率：
+										</label>
+										<div class="col-sm-8">
+											<input name="probability" id="probability1"
+												class="form-control required digits" type="text">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">
+											奖品数量：
+										</label>
+										<div class="col-sm-8">
+											<input name="amount" id="amount1"
+												class="form-control required digits" type="text">
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">
+											奖品期数：
+										</label>
+										<div class="col-sm-8">
+											<select id="period1" type="text" name="period"
+												class="form-control required ">
+												<option>
+														NationalDay
+													</option>
+													<option>
+														TheMayDay
+													</option>
+													<option>
+														SpringFestival
+													</option>
+													<option>
+														YuanDan
+													</option>
+													<option>
+														Shuang11
+													</option>
+													<option>
+														Shuang12
+													</option>
+													<option>
+														ZhongQiu
+													</option>
+											</select>
+											<span class="help-block m-b-none"><i
+												class="fa fa-info-circle"></i> 请选择正确期数</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-sm-3 control-label">
+											奖品备注：
+										</label>
+										<div class="col-sm-8">
+											<input id="desc1" type="text" class="form-control required "
+												name="desc" type="text">
+										</div>
+									</div>
+							</div>
+
+							<div class="form-group">
+								<div class="modal-footer">
+									<button type="button" class="btn btn-white"
+										data-dismiss="modal" id="shutdown">
+										关闭
+									</button>
+									<button id="update" class="btn btn-primary" type="button"
+										onclick="update1()">
+										提交
+									</button>
+								</div>
+							</div>
+						</div>
+			</form>
+		</div>
+
+	</div>
+
+
+
+	<body>
+	</body>
+
+</html>

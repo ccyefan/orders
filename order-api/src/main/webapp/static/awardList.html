@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>奖品队列同步管理</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet">
+		<link href="css/plugins/dataTables/dataTables.bootstrap.css"
+			rel="stylesheet">
+		<link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+		<link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+		<link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+		<link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+		<link href="css/plugins/clockpicker/clockpicker.css" rel="stylesheet">
+		<link rel="shortcut icon" href="favicon.ico">
+		<link href="css/animate.min.css" rel="stylesheet">
+		<link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+		
+		<script src="js/config.js"></script>
+		<script src="js/jquery.min.js?v=2.1.4"></script>
+		<script src="js/bootstrap.min.js?v=3.3.5"></script>
+		<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+		<script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+		<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+		<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+		<script src="js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+		<script src="js/plugins/clockpicker/clockpicker.js"></script>
+		
+		<script type="text/javascript">
+
+$(document).ready(function() {
+		
+		$('#file-pretty input[type="file"]').prettyFile();
+			var datas;
+			
+			$.ajax({
+				type : "get",
+				url : "http://"+host+"/form/award",
+				dataType : "json",
+				success : function(result) {
+					datas=result._embedded.award;
+					//console.log(datas[0]);
+					$(".example").dataTable({
+					"language": {
+									"oPaginate": {"sJump":"跳转"}
+														},
+					data:datas,
+					columns: [
+																{
+																	data : 'pkId'
+																},
+																{
+																	data : 'name'
+																},
+																{
+																	data : 'desc'
+																},
+																
+																{
+																	data : 'period'
+																},],
+        		 
+				});
+				}
+			});
+		});
+function ret() {
+      
+				location.href = "/form/static/lottery.html";
+};
+
+		
+
+			
+	
+
+	</script>
+	</head>
+<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>队列表同步</h5>
+					</div>
+					
+							<div class="form-group">
+										<div class="modal-footer">
+											
+											<button id="get" class="btn btn-primary" type="button"
+												onclick="ret()">
+												返回
+											</button>
+											
+										</div>
+									
+						   <table class="table table-striped table-bordered table-hover example"
+							id="editable">
+							<thead>
+								<tr>
+								<th>
+									编号
+								</th>
+								<th>
+									奖品名称
+								</th>
+								<th>
+									奖品备注
+								</th>
+								<th>
+									期数
+								</th>
+							</tr>
+							</thead>
+							<tbody>
+								<tr>
+								</tr>
+							</tbody>
+						</table>
+					</div>	
+		</div>
+	</div>
+  <body>
+  </body>
+</html>

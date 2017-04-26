@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>文件管理表格</title>
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css?v=4.4.0" rel="stylesheet"><!-- 图标 -->
+
+    <!-- Data Tables -->
+    <link href="css/plugins/dataTables/dataTables.bootstrap.css"
+          rel="stylesheet">
+
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/codemirror/codemirror.css" rel="stylesheet">
+    <link href="css/codemirror/ambiance.css" rel="stylesheet">
+    <link href="css/codemirror/monokai.css" rel="stylesheet">
+    <link href="css/codemirror/pastel-on-dark.css" rel="stylesheet">
+    <link href="css/style.min.css?v=4.0.0" rel="stylesheet">
+    <style type="text/css">
+        .CodeMirror-lines {
+            min-height: 100px;
+        }
+    </style>
+    <base target="_blank">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>文件管理表格</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+                        </a> <a class="dropdown-toggle" data-toggle="dropdown"
+                                href="table_data_tables.html#"> <i class="fa fa-wrench"></i>
+                    </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="table_data_tables.html#">选项1</a></li>
+                            <li><a href="table_data_tables.html#">选项2</a></li>
+                        </ul>
+                        <a class="close-link"> <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="">
+                        <a onclick="showData();" href="javascript:void(0);"
+                           class="btn btn-primary ">添加文件</a>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover "
+                           id="editable">
+                        <thead>
+	                        <tr>
+	                        	<th width="5%">pkId</th>
+	                            <th width="17%">path</th>
+	                            <th width="60%">fileName</th>
+	                            <th width="17%">操作</th>
+	                        </tr>
+                        </thead>
+                        <tbody>
+	                        <tr class="gradeX">
+	                        	<td>id</td>
+	                            <td>Trident</td>
+	                            <td>Internet Explorer 4.0</td>
+	                            <td>
+	                                <button type="button" class="btn btn-small btn-primary btn-edit">查看</button>
+	                                <button type="button" class="btn btn-small btn-primary btn-edit">修改</button>
+	                                <button type="button" class="btn btn-small btn-danger btn-del">删除</button>
+	                            </td>
+	                        </tr>
+                        </tbody>
+<!--                         <tfoot>
+	                        <tr>
+	                            <th colspan="3">添加按钮</th>
+	                        </tr>
+                        </tfoot> -->
+                    </table>
+                </div>
+                <!--<textarea id="code1"></textarea>-->
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">新增配置</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                	<label>文件名：</label>
+                                    <input type="text" class="form-control" id="key" placeholder="demo.conf">
+                                </div>
+                                <div class="form-group">
+                                	<label>路径：</label>
+                                    <textarea id="code1"></textarea>
+                                    <!--<input type="text" class="form-control" id="value" placeholder="value">-->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-info" id="addData">添加模拟数据</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <!-- <button type="button" class="btn btn-primary" id="save">保存</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.5"></script>
+<script src="js/plugins/jeditable/jquery.jeditable.js"></script>
+<script src="js/plugins/dataTables/jquery.dataTables.js"></script>
+<script src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+<script src="js/codemirror/codemirror.js"></script>
+<script src="js/codemirror/fold/foldcode.js"></script>
+<script src="js/codemirror/fold/foldgutter.js"></script>
+<script src="js/codemirror/fold/brace-fold.js"></script>
+<script src="js/codemirror/fold/xml-fold.js"></script>
+<script src="js/codemirror/fold/indent-fold.js"></script>
+<script src="js/codemirror/fold/markdown-fold.js"></script>
+<script src="js/codemirror/fold/comment-fold.js"></script>
+<script src="js/codemirror/mode/javascript/javascript.js"></script>
+<script src="js/codemirror/mode/groovy/groovy.js"></script>
+<script src="js/codemirror/matchbrackets.js"></script>
+<script src="js/config.js"></script>
+<script>
+	var oTable;
+    $(document).ready(function () {
+        	oTable = $("#editable").dataTable({
+            //"paging":   false,
+            //"lengthChange": false,
+            "pageLength": 8,
+            "lengthMenu": [ [4, 5, 8, -1], [4, 5, 8, "All"] ],
+            //"info":     false,            
+            //"ordering": false,
+            "serverSide": false,
+            "ajax":{
+            	"url":"http://"+host+"/form/findAllFile",
+            	"dataSrc":""
+            },
+            columns:[{data:'pkId'},{data:'path'},{data:'fileName'},{data:null}],
+            columnDefs:[{
+            	targets: 3,
+                render: function (data, type, row, meta) {
+                	//console.log(data.fileName);
+                	var name = row.fileName;
+                	//console.log(name);
+                	//var name = data.pathName;
+					return '<button type="button" class="btn btn-small btn-primary btn-edit" style="margin-right: 3px" onclick="find('+row.pkId+',\''+row.path+'\',\''+row.fileName+'\');">查看</button>' +
+        					'<button type="button" class="btn btn-small btn-primary btn-edit" style="margin-right: 3px" onclick="update('+row.pkId+')">(？)</button>' +
+        					'<button type="button" class="btn btn-small btn-danger btn-del" onclick=deleteData(' + row.pkId + ')>删除</button>';
+                }
+            }]
+        }).api();
+/*         $('#myModal').on('shown.bs.modal', function () {
+		  editor_one.refresh();
+		}); */
+    });
+    //添加文件
+    function showData(){
+    	$("#myModalLabel").html("添加文件");
+        $("#key").val("");
+        editor_one.setValue(" ");
+        editor_one.refresh();
+        $("#myModal").modal('show');
+        $("#addData").show();
+    	$("#addData").html("保存");
+        $("#addData").unbind();
+        $("#addData").bind('click',function(){
+        	var jso = {};
+        	jso.fileName=$.trim($("#key").val());
+        	jso.path = $.trim(editor_one.getValue());
+        	jsondata = JSON.stringify(jso);
+	        //$("#editable").dataTable().fnAddData(["Custom row", "New row", "New row", "New row", "New row"]);
+	        $.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "http://"+host+"/form/createfile",
+				dataType: "json",
+				data:jsondata,
+				success: function(result) {
+					if(result.msg=="fileExists"){
+						alert("文件已经存在！");
+					}
+					//$("#editable").dataTable().fnAddData(data);
+					$("#myModal").modal('hide');
+					oTable.ajax.reload();
+				}
+			});
+        });
+    }
+    function deleteData(id){
+    	$.ajax({
+    		type:"GET",
+    		url:"http://"+host+"/form/delFile?fileInfoId="+id,
+    		success:function(result){
+    			if(result.msg=="notnull"){
+	    			alert("删除失败！请清空文件");
+    			}
+    			//oTable.draw();  //失敗,適合于服務模式
+    			oTable.ajax.reload(); //適合用本地模式
+    		}
+    	});
+    }
+    function find(id,path,name){
+    	//跳转配置配置项页面
+  		location.href="http://"+host+"/form/static/confitem.html?fileId="+id+"&path="+path+"&name="+name;
+/*         $("#myModalLabel").html(id+"文件内容");
+  		$("#addData").hide();
+        $.ajax({
+        	type:"GET",
+        	url:"http://"+host+"/form/file/"+id,
+        	success:function(result){
+        		console.log(result);
+        		console.log(result.path);
+		        $("#myModal").modal('show');
+        		$("#key").val(result.fielName);
+        		editor_one.refresh();
+        		editor_one.setValue(result.path);
+        	}
+        }); */
+    }       
+    //修改按钮
+    function update(id){
+    	find(id);
+    	$("#myModalLabel").html(id+"修改");
+    	$("#addData").show();
+    	editor_one.refresh();
+    	$("#addData").html("保存修改");
+    	$("#addData").unbind();
+        $("#addData").bind('click',function(){
+	    	var updata = '{"conf_key":"'+$("#key").val()+'","conf_value":"'+editor_one.getValue()+'"}';
+	    	$.ajax({
+	    		type:"PATCH",
+	    		contentType: "application/json",
+	    		url:"http://"+host+"/form/file/"+id,
+	    		dataType:"json",
+	    		data:updata,
+	    		success:function(result){
+	    			$("#myModal").modal('hide');
+					oTable.ajax.reload();
+	    		}
+	    	});
+	    });
+    }
+    //code_editor
+    var editor_one = CodeMirror.fromTextArea(document.getElementById("code1"), {
+        lineNumbers: true,
+        matchBrackets: true,
+        styleActiveLine: true,
+        theme: "ambiance",
+        /* theme: "monokai", */
+        /* theme: "pastel-on-dark", */
+        mode:"text/x-groovy"
+    });
+</script>
+</body>
+
+</html>

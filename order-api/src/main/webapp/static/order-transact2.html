@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>流量业务办理</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<!-- <link href="css/bootstrap.min.css?v=3.3.5" rel="stylesheet"> -->
+	<style type="text/css">
+.hide{
+	width:0px;
+	height:0px;
+	display: none !important;
+}
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+	cursor: not-allowed;
+	filter: alpha(opacity = 65);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	opacity: 1.0;
+}
+.col-xs-12 {
+    float: left;
+    width: 100%;
+}
+.col-xs-7{
+	float: left;
+	width: 58.33333333%;
+}
+.col-xs-5{
+	float: left;
+	width: 41.66666667%;
+    position: relative;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+body{
+	margin:0px;
+	line-height: 1.6;
+}
+p {
+    margin: 0 0 10px
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing:border-box;
+}
+ *:before,*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.clearfix:before,.clearfix:after,.dl-horizontal dd:before,.dl-horizontal dd:after,.container:before,.container:after,.container-fluid:before,.container-fluid:after,.row:before,.row:after,.form-horizontal .form-group:before,.form-horizontal .form-group:after,.modal-header:before,.modal-header:after,.modal-footer:before,.modal-footer:after {
+    content: " ";
+    display: table
+}
+.clearfix:after,.dl-horizontal dd:after,.container:after,.container-fluid:after,.row:after,.form-horizontal .form-group:after,.modal-header:after,.modal-footer:after {
+    clear: both;
+}
+hr {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 0
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+.row {
+    margin-left: -15px;
+    margin-right: -15px
+}
+.form-group {
+    margin-bottom: 15px;
+}
+input,button,select,textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+.gray-bg {
+    background-color: #EFEFF5;
+}
+.btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    text-align: center;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow: visible;
+}
+	hr {border-top: 1px solid #E0E0E0;}
+	.form-control:focus, .single-line:focus {
+		border-color: #bbb !important
+	}
+	.ibox-content {background-color: inherit;}
+	.form-control{border: 1px solid #bbb; background-color: inherit;}
+	.wrapper-content {padding: 10px;}
+	.ibox-content{    padding: 15px 20px 20px;}
+	* {
+	    font-family: 'Microsoft Yahei','Simsun',Helvetica,Arial,sans-serif;
+	    /*font-weight: 100;*/
+	}
+	.row {
+	    margin-right: -9px;
+	    margin-left: -9px;
+	}
+	.col{padding-right: 5px;  padding-left: 5px;}
+	.selected{
+		float: left;
+	    width: auto;
+	    line-height: 40px;
+	    margin: 5px 2% 5px 0;
+	    text-align: center;
+    	font-size: 16px;
+    	box-sizing: border-box;
+    	border-radius: 2px;
+    	border: 1px solid #ec661b;
+    	background: url(./img/ico_duigou@3x.png) no-repeat right bottom;
+    	background-size: 16px 16px;
+    	padding-right: 16px;
+    	padding-left: 16px;
+	}
+	.unselected{
+		float: left;
+	    width: auto;
+	    line-height: 40px;
+	    margin: 5px 2% 5px 0;
+	    text-align: center;
+    	font-size: 16px;
+    	box-sizing: border-box;
+    	border-radius: 2px;
+    	border: 1px solid #ec661b;
+    	/* background: url(./img/ico_duigou@3x.png) no-repeat right bottom; */
+    	background-size: 16px 16px;
+    	padding-right: 16px;
+    	padding-left: 16px;
+	}
+	.btn{
+		/*background-image:url(./img/juxing_yanzhengmashuruzhengque@3x.png);*/
+		border-radius: 2px;
+		width: 100%;
+		height: 40px;
+		font-size: 16px;
+		font-weight: 100;  /*字体加粗*/
+		line-height: 1.6;
+		/*background-image:-webkit-gradient(linear,left top,left bottom,color-stop(0,#ec6618),color-stop(1,#ed7c18));*/
+		background-color:#F47327;
+		color:white;
+    	padding: 6px 0px;
+	}
+	.btn_sended{
+		border-radius: 4px;
+		width: 100%;
+		height: 40px;
+		font-size: 14px;
+	    /*background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0,#ececec),color-stop(1,#e5e5e5));*/
+	    background-color:#DEDEE0;
+		color:#636363;
+    	padding: 6px 0px;
+	}
+/* model start */
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+.modal-container {
+/*   width: 300px; */
+  margin: 0px 55px;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+@media (min-width: 768px) {
+	.modal-container {
+	  width: 300px;
+	  margin: 0px auto;
+	}
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+/* model end */
+.text-center {
+    text-align: center;
+}
+	.modal-body {
+    	text-align: center;
+    	padding: 20px 30px 30px;
+    }
+    img {
+    	width: 40%;
+    }
+    .modal-header {
+	    padding: 30px 15px;
+	    text-align: center;
+	    border-bottom:0px;
+	}
+	.modal-dialog {
+    	margin-top: 120px;
+	    /* margin-left: 50px;
+	    margin-right: 50px; */
+    }
+	@media all and (max-width: 540px) {
+		.sweet-alert {
+			width: auto;
+			margin-left: 0;
+			margin-right: 0;
+			left: 60px;
+			right: 60px;
+		}
+	    .modal-dialog {
+	    	margin-top: 120px;
+		    margin-left: 50px;
+		    margin-right: 50px;
+	    }
+	    .modal-footer {
+	    	border-top:0px;
+	    }
+    }
+	</style>
+</head>
+
+<body class="gray-bg">
+		<div class="ibox-content" style="border-top-width: 0px;">
+			<div id="page_content">
+				<div v-show="content" style="display: none;">
+					<div class="row">
+						<p style="font-size: 19px;">尊敬的微信联通用户，您好！</p>
+					</div>
+					<div class="row form-group" style="margin-bottom: 0px;">
+						<p class="" id="wxhsh" style="font-size: 15px;margin-bottom: 0px;">
+						{{message}}
+						<!-- 您的4G套餐共含流量**M,截止*月**日，您使用流量已达**M。您已连续两个月流量使用率超过70%，为节省您的流量资费建议您办理100元1G国内流量半年包，6个月内可尽情使用。点击详情链接进行订购，即时生效。 -->
+						</p>
+					</div>
+					<div class="row"><hr></div>
+					<div class="row form-group" id="content" style="margin-bottom: 0px;">
+	 					<div v-if="product" class="col-xs-12 col" style="padding-left: 0px;">
+							<input class="hide" v-model="number" type="radio" id="ra1" name="product" v-bind:value="raipt1"/>
+							<label for="ra1" id="product" class="unselected" @click="selected(product)" :class="{selected: activeName == product}">{{product}}</label>
+						</div>
+						<div v-if="product2" class='col-xs-12 col ' style='padding-left: 0px;'>
+							<input class="hide" v-model="number" type="radio" id="ra2" name="product" v-bind:value="raipt2"/>
+							<label for="ra2" id='product2' class='unselected' @click="selected(product2)" :class="{selected: activeName == product2}">{{product2}}</label>
+						</div>
+						<div v-if="product3" class='col-xs-12 col' style='padding-left: 0px;'>
+							<input class="hide" v-model="number" type="radio" id="ra3" name="product" v-bind:value="raipt3"/>
+							<label for="ra3" id='product3' class='unselected' @click="selected(product3)" :class="{selected: activeName == product3}">{{product3}}</label>
+						</div>
+						<div class="hide" id="number">{{number}}</div>
+					</div>
+					<div class="row"><hr></div>
+					<div class="row form-group" style="margin-bottom: 20px;">
+						<div class="col-xs-7 col" style="padding-left: 0px;">
+							<input v-model="captcha" class="captcha form-control" type="text" id="captcha" name="captcha" onfocus="cleaniput();" 
+							placeholder="请输入验证码" style="height:40px; border-radius:2px;color:#bbb"/>
+						</div>
+						<div class="col-xs-5 col" style="padding-right: 0px;">
+							<!-- <button id="smsbtn" class= "btn" type="button" onclick="sendCode();" data-loading-text="发送中...">发送验证码</button> -->
+							<button id="smsbtn" class= "btn" v-bind:disabled="isdisable"  :class="{btn_sended: isSend }" type="button" @click="sendcode">{{second}}</button>			
+							<!-- <timer-btn class="btn" @click.native="send" :disabled="disabled" ref="btn" :second="60"></timer-btn>	 -->		
+						</div>
+					</div>
+					<div class="row form-group">
+						<!-- <button id="banli" type="button" class="btn" onclick="banli();" data-loading-text="办理中..." >办理</button> -->
+						<button id="banli" type="button" class="btn" v-bind:disabled="banlidisable"  :class="{btn_sended: isBanli }"  @click="banli">{{banliText}}</button>
+						<!-- <button id="show-modal" @click="banli">Show Modal</button> -->
+						<!-- use the modal component, pass in the prop -->
+						<modal v-show="showModal" @close="showModal = false">
+						</modal>
+						<errormodal v-show="errormodal" @close="errormodal = false">
+						</errormodal>
+					</div>
+				</div>
+				<!-- complete -->
+				<my-component v-if="complete"></my-component>
+			</div>
+		</div>
+<!-- template for the modal component -->
+<!-- template for the modal component -->
+<script type="text/x-template" id="modal-template-success">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-header">
+			<slot name="head">
+				<img slot="head" src="./img/icon_chenggong@3x.png" />
+			</slot>
+          </div>
+
+          <div class="modal-body">
+            <slot name="body">
+				<p slot="body" style="font-size: 16px;">订购成功！</p>
+            </slot>
+          </div>
+
+          <div class="modal-footer">
+            <slot name="footer">
+			  <button slot="footer" type="button" class="btn btn-white" data-dismiss="modal" onclick="WeixinJSBridge.call('closeWindow');">确定</button>
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</script>
+<script type="text/x-template" id="modal-template-error">
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-header">
+			<slot name="head">
+				<img src="./img/icon_cs@3x.png" />
+			</slot>
+          </div>
+
+          <div class="modal-body">
+            <slot name="body">
+				<p style="font-size: 16px;">
+					网络超时，请稍后重试！
+				</p>
+            </slot>
+          </div>
+
+          <div class="modal-footer">
+            <slot name="footer">
+			  <button slot="footer" type="button" class="btn btn-white" data-dismiss="modal" @click="$emit('close')">确定</button>
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</script>
+		<!-- <script src="js/jquery.min.js?v=2.1.4"></script> -->
+		<!-- <script src="js/bootstrap.min.js?v=3.3.5"></script> -->
+		<!-- <script src='https://rawgit.com/progrape/weui.js/master/dist/weui.js'></script> -->
+		<script src="layer_mobile/layer.js"></script>
+		<script src="js/vue.min.js?v=2.2.0"></script>
+		<script type="text/javascript">
+			var host = window.location.host;
+			function GetRequest() {
+				var url = location.search;
+				var theRequest = new Object();
+				if (url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					strs = str.split("&");
+					for (var i = 0; i < strs.length; i++) {
+						theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+					}
+				}
+				return theRequest;
+			}  
+			// v-if='complete;'
+			var type = 'flow'; //页面类型：流量订购
+			Vue.component('my-component', {
+				template:"<div >"+
+					"<div class='form-group'><p class='text-center' style='margin-top: 100px;'>"+
+						"<span style='position:absolute;margin-top:44px;margin-left:2px;font-size: 10px;font-weight: 100;'>不可重复办理!</span>"+
+						"<img src='./img/pic@3x.png' style='width:200px;'>"+
+					"</p>"+
+					"</div>"+
+					"<div class='row form-group' style='margin-bottom: 150px;'>"+
+						"<p class='text-center' style='font-size: 18px;font-weight: 100;'>您的流量已经办理完成！</p>"+
+					"</div>"+
+					"<div class='row form-group'>"+
+						"<a type='button' class='btn btn-w-m btn-warning btn-block' onclick='closeWind();'>返回</a>"+
+					"</div>"+
+				"</div>"
+			});
+			Vue.component('modal', {
+			  template: '#modal-template-success'
+			});
+			Vue.component('errormodal', {
+			  template: '#modal-template-error'
+			});
+	 		var vm = new Vue({
+			  el: '#page_content',
+			  data: {
+			   message:null,
+			   product:null,
+			   product:null,
+			   raipt1:null,
+			   raid:null,
+			   product2:null,
+			   product2:null,
+			   raipt2:null,
+			   product3:null,
+			   product3:null,
+			   raipt3:null,
+			   activeName:null,
+			   number:'1',
+			   captcha: null,
+			   second:'发送验证码',
+			   count:60,
+			   t1:null,
+			   disabled: false,
+			   complete:false,
+			   content:false,
+			   showModal: false,
+			   errormodal: false,
+			   isSend:false,
+			   isdisable:false,
+			   banliText:'办理',
+			   isBanli:false,
+			   banlidisable:false,
+			   completeContent:true
+			  },
+			  created: function () {
+			    this.showData()
+			  },
+			  methods:{
+	           	showData:function(){
+			      var xhr = new XMLHttpRequest();
+			      var self = this;
+			      xhr.open('GET', "http://"+host+"/form/findById?workid="+GetRequest().id+"&key="+GetRequest().key,true);
+			      xhr.onreadystatechange = function () {
+			    	if (xhr.readyState==4 && xhr.status==200){
+			    	   var obj = eval('(' + xhr.responseText + ')');
+			    		if(obj.massage == '1'){
+			    			location.href="error.html";
+			    		}else if(obj.result == "1101"){  //办理完成
+			    			console.log("办理完成");
+			    			self.content=false;self.complete=true;
+			    		}else{
+						   self.content=true;
+						   self.complete=false;
+		 				   self.message = obj.wxhsh;
+						   self.product = obj.product1name!==null;
+						   self.product=obj.product1name;
+						   self.raipt1=obj.number1;
+						   self.raid=obj.product1id;
+		 				   self.product2=obj.product2name!==null;
+						   self.product2=obj.product2name;
+						   self.raipt2=obj.number2;
+						   self.product3=obj.product3name!==null;
+						   self.product3=obj.product3name;
+						   self.raipt3=obj.number3;
+						   self.activeName=obj.product1name;
+						   self.number='1';
+						   self.disabled= false;
+			    		}
+			  		}
+			      }
+			      xhr.send();
+	           	},
+			  	selected:function(product){
+			  		this.activeName=product
+			  	},
+			   sendcode:function(){ //等待响应
+			   		console.log("sendcode");
+			   		this.second = "发送中...";
+	    			this.isSend = true;
+	    			this.isdisable = true;
+			   		this.codeRequest();
+			   },
+			   codeRequest:function(){
+ 			      	var xhr = new XMLHttpRequest();
+			      	var self = this;
+			      	xhr.open('GET', "http://"+host+"/form/smsSend?workid="+GetRequest().id,true);
+			      	xhr.onreadystatechange = function () {
+			    		if (xhr.readyState==4){
+			    			if((xhr.status>=200 && xhr.status < 300)||(xhr.status == 304)){
+				    			var rel = eval('(' + xhr.responseText + ')');
+								if(rel.massage=="验证码发送成功"){
+					    			self.t1 = setInterval(self.jjjj,1000);
+								}else{
+									location.href="error.html";
+								}
+			    			}else{
+			    				self.errormodal = true;
+			    				console.log('err');
+			    			}
+			    		}
+			    	}
+			    	xhr.send();
+				    //this.t1 = setInterval(this.jjjj,1000);
+			   },
+			   jjjj:function(){
+				   if(this.count>0){
+					    this.count--;
+					   	this.second = " 重新发送("+this.count+")";
+				   }else{
+					   	clearInterval(this.t1);
+					   	this.count=60;
+					   	console.log("reset");
+					   	this.isSend = false; //颜色恢复
+					   	this.isdisable = false; //disable 恢复
+					   	this.second="发送验证码";
+				   }
+			   },
+			   banli:function(){
+			   		this.banliText = '发送中...';
+	    			this.isBanli = true;
+	    			this.banlidisable = true;
+			   		this.banliRequest();
+			   },
+               banliRequest:function(){
+			   var xhr = new XMLHttpRequest();
+			      var self = this;
+			      xhr.open('GET', "http://"+host+"/form/sendBanli?workid=" + GetRequest().id + "&type=" + type +"&number="+self.number+"&captcha=" + self.captcha,true);
+			      xhr.onreadystatechange = function () {
+			      	if (xhr.readyState==4){
+			      		self.banliText = '办理';
+		    			self.isBanli = false;
+		    			self.banlidisable = false;
+				      	if ((xhr.status>=200 && xhr.status < 300)||(xhr.status == 304)){
+				      		var rel = eval('(' + xhr.responseText + ')');
+				      		if (rel.message == "办理成功") {
+				      			self.showModal = true;
+				      		}else if(rel.message == "办理失败"){
+				      			location.href="error.html?workId="+rel.workId;
+				      		}else{ //验证码失败
+					             layer.open({
+								    content: rel.message
+								    ,style: 'padding: 10px 25px;bottom: 120px;'
+								    ,skin: 'msg'
+								    ,time: 3 //2秒后自动关闭
+								 });
+				      		}
+				      	}else{
+				      		self.errormodal = true;
+				      	}
+			      	}
+			      }
+			      xhr.send();
+               },
+               closeError:function(){
+               	console.log("closeerr");
+               	self.errormodal = false;
+               	console.log(self.errormodal);
+               }
+			  }
+			});
+			function closeWind(){
+				WeixinJSBridge.call('closeWindow');
+			}
+  			function cleaniput(){
+				//$("#captcha").val("");
+				var captcha = document.getElementById('captcha').value="";
+			}
+		</script>
+</body>
+</html>

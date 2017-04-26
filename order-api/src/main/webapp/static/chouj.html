@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>chouj.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+    抽奖模拟页面。 <br>
+  <script src="js/config.js"></script>
+  <script src="js/jquery.min.js?v=2.1.4"></script>
+  <script type="text/javascript">
+  //抽奖消息已经到手机  publicid  
+  //查询openid  tel
+	function GetRequest() {
+		var url = location.search;
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			strs = str.split("&");
+			for (var i = 0; i < strs.length; i++) {
+				theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+			}
+		}
+		return theRequest;
+	}
+	//已知参数    pubicid(url中获取)
+	//var publicid = GetRequest().publicId;
+	//已知参数    pubicid(url中获取)
+	//var openId = GetRequest().openId;
+	publicid = "gh_c1cbf2230f00";
+	openId = "ofC0Ct7A0j84OQwr05Eih6suLgYQ";
+	$.ajax({
+		type: "get",
+		contentType: "application/json",
+		url:"http://"+host+"/form/getsession",
+		dataType: "json",
+		success:function(result){
+			console.log(result);
+			if(result.tel=='notel'){  //取不到
+				window.location.href="http://"+isbindhost+"/wechat/bind/excute.do?param=http://"+host+"/form/static/chouj.html&publicId="+publicid+"&openId="+openId+"&redirectUrl=http://"+host+"/form/rest/openidtel";
+			}else{ //能取到
+				console.log("tel:"+result.tel);
+			}
+		}
+	});
+
+  </script>
+  </body>
+</html>
